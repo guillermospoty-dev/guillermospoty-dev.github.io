@@ -573,6 +573,12 @@ section,
   font-weight: 400;
   color: #ffffff;
   display: inline-block;
+
+  .portfolio-img {
+    width: 100%;
+    height: 300px;      /* Choose any height you like */
+    object-fit: cover;  /* Makes images crop nicely */
+    border-radius: 8px; /* Optional: rounded corners */
 }
 
 .portfolio .portfolio-content .portfolio-info p {
