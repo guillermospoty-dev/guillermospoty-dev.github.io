@@ -12,6 +12,10 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
+    --bs-body-font-family: "Inter", sans-serif;
+}
+
+:root {
   --default-font: "Inconsolata",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --heading-font: "Inconsolata",  sans-serif;
   --nav-font: "Inconsolata",  sans-serif;
