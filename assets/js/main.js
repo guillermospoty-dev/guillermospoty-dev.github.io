@@ -64,12 +64,13 @@
 const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
+      setTimeout(() => {
           preloader.remove(); 
-          document.querySelectorAll('.top-section-hidden').forEach(el => {
-            el.classList.remove('top-section-hidden');
-          });
+          if (typeof AOS !== 'undefined') {
+              AOS.refresh(); 
+          }
           
-      }, 2000); 
+      }, 5000); 
     });
   }
 
