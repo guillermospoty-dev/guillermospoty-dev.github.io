@@ -64,7 +64,10 @@
 const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
-      preloader.remove(); 
+      // TEMPORARY FIX FOR DEMO: Wait 5 seconds to view the custom loader animation
+      setTimeout(() => {
+          preloader.remove();     
+      }, 5000); 
     });
   }
 
