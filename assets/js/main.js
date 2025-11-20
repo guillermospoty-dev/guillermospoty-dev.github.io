@@ -71,7 +71,7 @@ const preloader = document.querySelector('#preloader');
               AOS.refresh(); 
           }
           
-      }, 5000); 
+      }, 2000); 
     });
   }
 
