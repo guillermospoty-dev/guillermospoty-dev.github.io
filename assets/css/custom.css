@@ -1,1 +1,70 @@
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px); 
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  opacity: 0; 
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.btn-custom {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06); 
+  transition: all 0.3s ease; 
+}
+
+.btn-custom:hover {
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
+}
+
+@keyframes pulseDot {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1.0);
+  }
+}
+
+#preloader:before {
+  display: none; 
+}
+
+#preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#preloader::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent-color, #0044cc);
+  animation: pulseDot 1.4s infinite ease-in-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    opacity: 1; 
+    animation: none !important;
+    transform: none !important;
+  }
+
+#preloader::after {
+    animation: none !important;
+  }
+
+.btn-custom:hover {
+    transform: none !important;
+  }
+}
