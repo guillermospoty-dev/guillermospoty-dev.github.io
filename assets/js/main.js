@@ -64,9 +64,7 @@
   const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
-    setTimeout(() => {
-          preloader.remove();
-      }, 5000);
+      preloader.remove(); // <-- This should be the only line inside the listener
     });
   }
 
