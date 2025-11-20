@@ -61,10 +61,10 @@
   /**
    * Preloader
    */
-  const preloader = document.querySelector('#preloader');
+const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
-      preloader.remove(); // <-- This should be the only line inside the listener
+      preloader.remove(); // <-- Must be this single line inside the listener
     });
   }
 
