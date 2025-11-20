@@ -46,10 +46,10 @@
 #preloader::after {
   content: "";
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 50px !important;
+  height: 50px !important;
   border-radius: 50%;
-  background-color: var(--accent-color, #0044cc);
+  background-color: red !important;
   animation: pulseDot 1.4s infinite ease-in-out both;
 }
 
