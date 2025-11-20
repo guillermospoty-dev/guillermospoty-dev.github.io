@@ -70,7 +70,7 @@ const preloader = document.querySelector('#preloader');
               AOS.refresh(); 
           }
           
-      }, 2000); 
+      }, 5000); 
     });
   }
 
