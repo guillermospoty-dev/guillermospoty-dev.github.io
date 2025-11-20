@@ -69,8 +69,8 @@
   }
 }
 
-.portfolio-info.card-surface, 
-.col-lg-6.card-surface,
-.portfolio-item.card-surface {
+#about .portfolio-info.card-surface, 
+#resume .col-lg-6.card-surface, 
+#portfolio .portfolio-item.card-surface {
     background-color: #eeeeee !important; 
 }
