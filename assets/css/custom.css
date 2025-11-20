@@ -68,3 +68,6 @@
     transform: none !important;
   }
 }
+
+.card-surface {
+  background-color: #f7f7f7;
