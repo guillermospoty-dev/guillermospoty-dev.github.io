@@ -66,7 +66,12 @@ const preloader = document.querySelector('#preloader');
     window.addEventListener('load', () => {
       setTimeout(() => {
           preloader.remove(); 
-      }, 1500); 
+        
+          if (typeof AOS !== 'undefined') {
+              AOS.refresh(); 
+          }
+          
+      }, 5000); 
     });
   }
 
