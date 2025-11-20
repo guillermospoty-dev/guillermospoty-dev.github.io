@@ -64,12 +64,10 @@
 const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
-      setTimeout(() => {
           preloader.remove(); 
-        
-          if (typeof AOS !== 'undefined') {
-              AOS.refresh(); 
-          }
+          document.querySelectorAll('.top-section-hidden').forEach(el => {
+            el.classList.remove('top-section-hidden');
+          });
           
       }, 2000); 
     });
