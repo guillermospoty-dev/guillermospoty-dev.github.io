@@ -73,20 +73,7 @@ function calculateResistance() {
     document.getElementById('viz-tolerance').style.backgroundColor = colorData[colorTolerance].hex;
 }
 
-// --- New Initialization Code ---
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Select all four dropdowns
-    const band1 = document.getElementById('band1');
-    const band2 = document.getElementById('band2');
-    const multiplier = document.getElementById('multiplier');
-    const tolerance = document.getElementById('tolerance');
+// ... (The entire calculateResistance function body) ...
+    document.getElementById('viz-tolerance').style.backgroundColor = colorData[colorTolerance].hex;
+}
 
-    // Attach the event listener to each dropdown
-    band1.addEventListener('change', calculateResistance);
-    band2.addEventListener('change', calculateResistance);
-    multiplier.addEventListener('change', calculateResistance);
-    tolerance.addEventListener('change', calculateResistance);
-    
-    // Run initial calculation once the page is fully loaded
-    calculateResistance();
-});
