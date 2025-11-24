@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f4f4f9;
+}
+
+.calculator-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.controls label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.controls select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/* --- Resistor Visualization Styles --- */
+
+.resistor-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.resistor-body {
+    position: relative;
+    width: 350px;
+    height: 60px;
+    background-color: #be8e69; /* Light brown/tan body color */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 50px;
+}
+
+/* Resistor Leads (Simple representation) */
+.resistor-body::before, .resistor-body::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 5px;
+    background-color: #a0a0a0; /* Gray for leads */
+    z-index: -1;
+}
+
+.resistor-body::before {
+    left: -100px;
+}
+
+.resistor-body::after {
+    right: -100px;
+}
+
+/* Individual Color Bands */
+.band {
+    width: 10px;
+    height: 60px;
+    margin-right: 5px; /* Spacing between bands */
+}
+
+/* Ensure the tolerance band is further apart */
+.tolerance-band {
+    margin-left: 20px; 
+}
+
+/* --- Result Styles --- */
+
+.result p {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.result-value {
+    font-size: 2em;
+    font-weight: 700;
+    color: #007bff; /* Blue color for the main result */
+    background: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: inline-block;
+}
