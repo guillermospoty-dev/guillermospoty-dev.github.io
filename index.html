@@ -9,23 +9,19 @@
   <meta name="keywords" content="portfolio, resume, projects, bootstrap, web design">
 
 
-  <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
   <link href="assets/css/custom.css" rel="stylesheet">
 
@@ -46,7 +42,7 @@
           <li><a href="#about">About</a></li>
           <li><a href="#resume">Resume</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#calculator">Calculator</a></li><li><a href="#contact">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -55,9 +51,7 @@
 
   <main class="main">
 
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about section">
-      <div class="container data-aos=" fade-up  data-aos-duration="2000" >
+    <section id="about" class="about section" data-aos="fade-up" data-aos-duration="2000"><div class="container">
         <div class="col-lg-7 portfolio-info card-surface" style="background-color: #eeeeee;">
         <h2>About Me</h2>
         <p>I'm Guillermo Camacho, a passionate Materials Engineering student at Universidad Politécnica de Madrid (UPM) with a deep interest
@@ -67,18 +61,13 @@
            <a class="btn-custom" href="#portfolio">See my work</a>
       </div>
     </section>
-    <!-- End About Section -->
-
-    <!-- ======= Resume Section ======= -->
-    <section id="resume" class="resume section light-background">
-      <div class="container  data-aos=" fade-up  data-aos-duration="2000">
+    <section id="resume" class="resume section light-background" data-aos="fade-up" data-aos-duration="2000"><div class="container">
         <h2>Resume</h2>
 
         <div class="row">
           <div class="col-lg-6 card-surface" style="background-color: #eeeeee;">
             <h3 class="resume-title">Education</h3>
             <div class="resume-item">
-              <!-- TODO: Replace with your info -->
               <h4>Materials engineering</h4>
               <h5>2021– Ongoing</h5>
               <p><em>Universidad Politecnica de Madrid(UPM)</em></p>
@@ -104,74 +93,67 @@
         </div>
       </div>
     </section>
-    <!-- End Resume Section -->
-
-    <!-- ======= Portfolio Section ======= -->
-<section id="portfolio" class="portfolio section card-surface">
+    <section id="portfolio" class="portfolio section card-surface">
   <div class="container" data-aos="fade-up" data-aos-duration="1000">
     <h2>Portfolio</h2>
     <p>Here are some of my projects and works.</p>
 
     <div class="row gy-4 isotope-container">
 
-      <!-- Portfolio Item 1 -->
       <div class="col-lg-4 col-md-6 portfolio-item card-surface" style="background-color: #eeeeee;">
         <div class="portfolio-content h-100">
-          <img src="assets/img/RUG.jpeg" class="img-fluid portfolio-img" width="200" height="300" alt="Project 1 preview image">
+          <img src="assets/img/RUG.jpeg" class="img-fluid portfolio-img" width="200" height="300" alt="Album cover rug image">
           <div class="portfolio-info">
             <h4>Album cover rug</h4>
-            <p><!-- TODO: Short description (2–3 sentences) --></p>
+            <p></p>
           </div>
         </div>
       </div>
 
-      <!-- Portfolio Item 2 -->
       <div class="col-lg-4 col-md-6 portfolio-item card-surface" style="background-color: #eeeeee;">
         <div class="portfolio-content h-100">
-          <img src="assets/img/VINYL.jpeg" class="img-fluid portfolio-img" width="200" height="300" alt="Project 2 preview image">
+          <img src="assets/img/VINYL.jpeg" class="img-fluid portfolio-img" width="200" height="300" alt="Image of a vinyl record collection">
           <div class="portfolio-info">
             <h4>My vinyl collection</h4>
-            <p><!-- TODO: Short description (2–3 sentences) --></p>
+            <p></p>
           </div>
         </div>
       </div>
 
-      <!-- Portfolio Item 3 -->
       <div class="col-lg-4 col-md-6 portfolio-item card-surface" style="background-color: #eeeeee;">
         <div class="portfolio-content h-100">
-          <img src="assets/img/ENOLA.jpeg" class="img-fluid portfolio-img" width="200" height="300" alt="Project 3 preview image">
+          <img src="assets/img/ENOLA.jpeg" class="img-fluid portfolio-img" width="200" height="300" alt="Image of the Enola project design">
           <div class="portfolio-info">
             <h4>Enola</h4>
-            <p><!-- TODO: Short description (2–3 sentences) --></p>
+            <p></p>
           </div>
         </div>
       </div>
-
+      
+      </div>
+  </div>
+</section>
+    <section id="calculator" class="calculator section light-background" data-aos="fade-up" data-aos-duration="1000">
+    <div class="container">
+        <h2>Resistor Color Code Calculator</h2>
+        <p>This is an interactive user interface project created to calculate resistance values from color bands, showcasing my skills in HTML, CSS, and JavaScript.</p>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-6 portfolio-item card-surface" style="background-color: #eeeeee;"> 
+                <a href="resistor-calculator/index.html" title="Resistor Color Code Calculator" class="glightbox">
+                    <div class="portfolio-content h-100">
+                        <img src="assets/img/resistor-placeholder.jpg" class="img-fluid" alt="Resistor Color Code Calculator Screenshot">
+                        <div class="portfolio-info">
+                            <h4>Launch Calculator UI</h4>
+                            <p>Click to open the interactive JavaScript application.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
-    <!-- End Portfolio Section -->
-<section  id="calculator" class="calculator section card-surface">
-       <div class="container" data-aos="fade-up" data-aos-duration="1000">
-         <div class="row gy-4 isotope-container">
-
-  <div class="col-lg-4 col-md-6 portfolio-item card-surface"> 
-      <a href="resistor-calculator/index.html" title="Resistor Color Code Calculator" class="glightbox">
-          <div class="portfolio-content h-100">
-              <img src="assets/img/resistor-placeholder.jpg" class="img-fluid" alt="Resistor Color Code Calculator Screenshot">
-              <div class="portfolio-info">
-                  <h4>Resistor Color Code Calculator</h4>
-                  <p>A simple, interactive UI created using HTML, CSS, and vanilla JavaScript to calculate resistance based on color bands.</p>
-              </div>
-          </div>
-      </a>
-  </div>
-  
-  </div>
-</section>
-  
-       
-  </main>
+</main>
 
   <footer id="footer" class="footer light-background">
     <div class="container">
@@ -179,7 +161,6 @@
         <p>© <span>Copyright</span> <strong class="px-1 sitename">MyPortfolio</strong> <span>All Rights Reserved</span></p>
       </div>
       <div class="social-links d-flex justify-content-center">
-        <!-- TODO: Add your real social links -->
         <a href="#"><i class="bi bi-twitter-x"></i></a>
         <a href="#"><i class="bi bi-instagram"></i></a>
         <a href="#"><i class="bi bi-linkedin"></i></a>
@@ -187,30 +168,19 @@
     </div>
   </footer>
 
-  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
 </body>
 
 </html>
-
-
-
-
-
-
-
-
 
 
 
