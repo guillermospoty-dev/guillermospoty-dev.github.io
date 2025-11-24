@@ -3,11 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resistor Calculator</title>
+    <title>Resistor Color Code Calculator</title>
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-    
-    <script src="script.js"></script> 
+
+    <div class="calculator-container">
+        <h1>Resistor Color Code Calculator</h1>
+
+        <div class="controls">
+            <label for="band1">Band 1 (First Digit):</label>
+            <select id="band1" onchange="calculateResistance()">
+                <option value="0">Black (0)</option>
+                <option value="1" selected>Brown (1)</option>
+                <option value="2">Red (2)</option>
+                <option value="3">Orange (3)</option>
+                <option value="4">Yellow (4)</option>
+                <option value="5">Green (5)</option>
+                <option value="6">Blue (6)</option>
+                <option value="7">Violet (7)</option>
+                <option value="8">Gray (8)</option>
+                <option value="9">White (9)</option>
+            </select>
+
+            <label for="band2">Band 2 (Second Digit):</label>
+            <select id="band2" onchange="calculateResistance()">
+                <option value="0">Black (0)</option>
+                <option value="1">Brown (1)</option>
+                <option value="2" selected>Red (2)</option>
+                <option value="3">Orange (3)</option>
+                <option value="4">Yellow (4)</option>
+                <option value="5">Green (5)</option>
+                <option value="6">Blue (6)</option>
+                <option value="7">Violet (7)</option>
+                <option value="8">Gray (8)</option>
+                <option value="9">White (9)</option>
+            </select>
+
+            <label for="multiplier">Band 3 (Multiplier):</label>
+            <select id="multiplier" onchange="calculateResistance()">
+                <option value="1">Black (x1)</option>
+                <option value="10">Brown (x10)</option>
+                <option value="100" selected>Red (x100)</option>
+                <option value="1000">Orange (x1k)</option>
+                <option value="10000">Yellow (x10k)</option>
+                <option value="100000">Green (x100k)</option>
+                <option value="1000000">Blue (x1M)</option>
+                <option value="10000000">Violet (x10M)</option>
+                <option value="0.1">Gold (x0.1)</option>
+                <option value="0.01">Silver (x0.01)</option>
+            </select>
+
+            <label for="tolerance">Band 4 (Tolerance):</label>
+            <select id="tolerance" onchange="calculateResistance()">
+                <option value="0.01">Brown (±1%)</option>
+                <option value="0.02" selected>Red (±2%)</option>
+                <option value="0.005">Green (±0.5%)</option>
+                <option value="0.0025">Blue (±0.25%)</option>
+                <option value="0.001">Violet (±0.1%)</option>
+                <option value="0.05">Gold (±5%)</option>
+                <option value="0.10">Silver (±10%)</option>
+            </select>
+        </div>
+
+        <div class="resistor-display">
+            <div class="resistor-body">
+                <div class="band band-1" id="viz-band1"></div>
+                <div class="band band-2" id="viz-band2"></div>
+                <div class="band band-3" id="viz-multiplier"></div>
+                <div class="band band-4 tolerance-band" id="viz-tolerance"></div>
+            </div>
+        </div>
+
+        <div class="result">
+            <p>Calculated Resistance:</p>
+            <div id="result-value" class="result-value">2.2 kΩ ± 2%</div>
+        </div>
+        
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Run the calculation once on load to show the default value
+        window.onload = calculateResistance;
+    </script>
 </body>
 </html>
