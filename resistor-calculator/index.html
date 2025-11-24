@@ -82,6 +82,24 @@
     
 </div>
 
-<script src="script.js" defer></script>
+<script src="script.js" ></script>
+    <script>
+    // This code runs only after script.js has loaded
+    window.onload = function() {
+        const band1 = document.getElementById('band1');
+        const band2 = document.getElementById('band2');
+        const multiplier = document.getElementById('multiplier');
+        const tolerance = document.getElementById('tolerance');
+
+        // Attach the event listener to each dropdown
+        band1.addEventListener('change', calculateResistance);
+        band2.addEventListener('change', calculateResistance);
+        multiplier.addEventListener('change', calculateResistance);
+        tolerance.addEventListener('change', calculateResistance);
+        
+        // Run initial calculation once everything is ready
+        calculateResistance();
+    };
+</script>
 </body>
 </html>
