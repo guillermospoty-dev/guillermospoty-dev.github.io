@@ -1,105 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resistor Color Code Calculator</title>
-    <link rel="stylesheet" href="style.css"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resistor Color Code Calculator</title>
+
+  <!-- Calculator CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Global site styles -->
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/custom.css">
 </head>
+
 <body>
 
-    <div class="calculator-container">
-        <h1>Resistor Color Code Calculator</h1>
+  <div class="container mt-5 card-surface p-4">
+    <h1 class="text-center mb-4">Resistor Color Code Calculator</h1>
 
-        <div class="controls">
-            <label for="band1">Band 1 (First Digit):</label>
-            <select id="band1" >
-                <option value="0">Black (0)</option>
-                <option value="1" selected>Brown (1)</option>
-                <option value="2">Red (2)</option>
-                <option value="3">Orange (3)</option>
-                <option value="4">Yellow (4)</option>
-                <option value="5">Green (5)</option>
-                <option value="6">Blue (6)</option>
-                <option value="7">Violet (7)</option>
-                <option value="8">Gray (8)</option>
-                <option value="9">White (9)</option>
-            </select>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
 
-            <label for="band2">Band 2 (Second Digit):</label>
-            <select id="band2" >
-                <option value="0">Black (0)</option>
-                <option value="1">Brown (1)</option>
-                <option value="2" selected>Red (2)</option>
-                <option value="3">Orange (3)</option>
-                <option value="4">Yellow (4)</option>
-                <option value="5">Green (5)</option>
-                <option value="6">Blue (6)</option>
-                <option value="7">Violet (7)</option>
-                <option value="8">Gray (8)</option>
-                <option value="9">White (9)</option>
-            </select>
+        <!-- Color selectors -->
+        <label>Band 1:</label>
+        <select id="band1" class="form-select mb-3">
+          <option value="0">Black</option>
+          <option value="1">Brown</option>
+          <option value="2">Red</option>
+          <option value="3">Orange</option>
+          <option value="4">Yellow</option>
+          <option value="5">Green</option>
+          <option value="6">Blue</option>
+          <option value="7">Violet</option>
+          <option value="8">Grey</option>
+          <option value="9">White</option>
+        </select>
 
-            <label for="multiplier">Band 3 (Multiplier):</label>
-            <select id="multiplier" >
-                <option value="1">Black (x1)</option>
-                <option value="10">Brown (x10)</option>
-                <option value="100" selected>Red (x100)</option>
-                <option value="1000">Orange (x1k)</option>
-                <option value="10000">Yellow (x10k)</option>
-                <option value="100000">Green (x100k)</option>
-                <option value="1000000">Blue (x1M)</option>
-                <option value="10000000">Violet (x10M)</option>
-                <option value="0.1">Gold (x0.1)</option>
-                <option value="0.01">Silver (x0.01)</option>
-            </select>
+        <label>Band 2:</label>
+        <select id="band2" class="form-select mb-3">
+          <option value="0">Black</option>
+          <option value="1">Brown</option>
+          <option value="2">Red</option>
+          <option value="3">Orange</option>
+          <option value="4">Yellow</option>
+          <option value="5">Green</option>
+          <option value="6">Blue</option>
+          <option value="7">Violet</option>
+          <option value="8">Grey</option>
+          <option value="9">White</option>
+        </select>
 
-            <label for="tolerance">Band 4 (Tolerance):</label>
-            <select id="tolerance" >
-                <option value="0.01">Brown (±1%)</option>
-                <option value="0.02" selected>Red (±2%)</option>
-                <option value="0.005">Green (±0.5%)</option>
-                <option value="0.0025">Blue (±0.25%)</option>
-                <option value="0.001">Violet (±0.1%)</option>
-                <option value="0.05">Gold (±5%)</option>
-                <option value="0.10">Silver (±10%)</option>
-            </select>
-        </div>
+        <label>Multiplier:</label>
+        <select id="multiplier" class="form-select mb-3">
+          <option value="1">Black ×1</option>
+          <option value="10">Brown ×10</option>
+          <option value="100">Red ×100</option>
+          <option value="1000">Orange ×1k</option>
+          <option value="10000">Yellow ×10k</option>
+          <option value="100000">Green ×100k</option>
+          <option value="1000000">Blue ×1M</option>
+          <option value="10000000">Violet ×10M</option>
+        </select>
 
-        <div class="resistor-display">
-            <div class="resistor-body">
-                <div class="band band-1" id="viz-band1"></div>
-                <div class="band band-2" id="viz-band2"></div>
-                <div class="band band-3" id="viz-multiplier"></div>
-                <div class="band band-4 tolerance-band" id="viz-tolerance"></div>
-            </div>
-        </div>
+        <button class="btn btn-primary w-100" onclick="calculate()">Calculate</button>
 
-       <div class="result">
-        <p>Calculated Resistance:</p>
-        <div id="result-value" class="result-value">2.2 kΩ ± 2%</div>
+        <h3 class="text-center mt-4">Resistance: <span id="result">—</span> Ω</h3>
+
+      </div>
     </div>
-    
-</div>
+  </div>
 
-<script src="script.js" ></script>
-    <script>
-    // This code runs only after script.js has loaded
-    window.onload = function() {
-        const band1 = document.getElementById('band1');
-        const band2 = document.getElementById('band2');
-        const multiplier = document.getElementById('multiplier');
-        const tolerance = document.getElementById('tolerance');
+  <!-- Calculator JS -->
+  <script src="script.js"></script>
 
-        // Attach the event listener to each dropdown
-        band1.addEventListener('change', calculateResistance);
-        band2.addEventListener('change', calculateResistance);
-        multiplier.addEventListener('change', calculateResistance);
-        tolerance.addEventListener('change', calculateResistance);
-        
-        // Run initial calculation once everything is ready
-        calculateResistance();
-    };
-</script>
+  <!-- Global scripts -->
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+
 </body>
 </html>
