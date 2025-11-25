@@ -1,18 +1,11 @@
-body {
-  background: #f2f2f2;
-}
+function calculate() {
+  let band1 = parseInt(document.getElementById("band1").value);
+  let band2 = parseInt(document.getElementById("band2").value);
+  let multiplier = parseInt(document.getElementById("multiplier").value);
 
-.card-surface {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
+  let baseValue = (band1 * 10) + band2;
+  let resistance = baseValue * multiplier;
 
-h1, h3 {
-  font-weight: 700;
-}
-
-select {
-  cursor: pointer;
+  document.getElementById("result").textContent = resistance.toLocaleString();
 }
 
