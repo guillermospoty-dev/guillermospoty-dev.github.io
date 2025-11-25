@@ -165,3 +165,85 @@ const preloader = document.querySelector('#preloader');
   window.addEventListener("load", initSwiper);
 
 })();
+
+
+/* COLOR VALUES */
+const digitColors = [
+  "Black","Brown","Red","Orange","Yellow","Green","Blue","Violet","Grey","White"
+];
+
+const multiplierValues = {
+  "Black": 1,
+  "Brown": 10,
+  "Red": 100,
+  "Orange": 1_000,
+  "Yellow": 10_000,
+  "Green": 100_000,
+  "Blue": 1_000_000,
+  "Violet": 10_000_000,
+  "Grey": 100_000_000,
+  "White": 1_000_000_000,
+  "Gold": 0.1,
+  "Silver": 0.01
+};
+
+const toleranceValues = {
+  "Brown": "±1%",
+  "Red": "±2%",
+  "Green": "±0.5%",
+  "Blue": "±0.25%",
+  "Violet": "±0.1%",
+  "Grey": "±0.05%",
+  "Gold": "±5%",
+  "Silver": "±10%"
+};
+
+/* Populate dropdown menus */
+function loadOptions() {
+  document.querySelectorAll(".digit-band").forEach(sel => {
+    digitColors.forEach((color, index) => {
+      sel.insertAdjacentHTML("beforeend", `<option value="${index}">${color}</option>`);
+    });
+  });
+
+  for (let color in multiplierValues) {
+    multiplier.insertAdjacentHTML("beforeend", `<option value="${multiplierValues[color]}">${color}</option>`);
+  }
+
+  for (let color in toleranceValues) {
+    tolerance.insertAdjacentHTML("beforeend", `<option value="${toleranceValues[color]}">${color} (${toleranceValues[color]})</option>`);
+  }
+}
+
+/* Handle mode switching */
+document.getElementById("mode").addEventListener("change", function () {
+  document.getElementById("band3-container").style.display =
+    this.value === "5" ? "block" : "none";
+});
+
+/* Calculate function */
+function calculateResistor() {
+  const mode = document.getElementById("mode").value;
+  let b1 = parseInt(band1.value);
+  let b2 = parseInt(band2.value);
+  let multiplierVal = parseFloat(multiplier.value);
+  let tol = tolerance.value;
+
+  let base;
+
+  if (mode === "4") {
+    base = (b1 * 10 + b2);
+  } else {
+    let b3 = parseInt(band3.value);
+    base = (b1 * 100 + b2 * 10 + b3);
+  }
+
+  let resistance = base * multiplierVal;
+
+  document.getElementById("result").textContent =
+    resistance.toLocaleString() + " Ω " + tol;
+}
+
+/* Load dropdown values when modal opens */
+document.getElementById("calculatorModal").addEventListener("shown.bs.modal", loadOptions);
+
