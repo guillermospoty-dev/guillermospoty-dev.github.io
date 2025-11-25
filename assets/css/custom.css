@@ -79,3 +79,12 @@
     background-color: #eeeeee !important; 
 }
 
+#calculatorModal .modal-content {
+  border-radius: 15px;
+  padding: 20px;
+}
+
+#calculatorModal select {
+  cursor: pointer;
+}
+
