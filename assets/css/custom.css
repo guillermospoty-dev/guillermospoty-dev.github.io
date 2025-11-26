@@ -84,6 +84,13 @@
   padding: 20px;
 }
 
+.preview-band {
+  width: 30px;
+  height: 50px;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
 #calculatorModal select {
   cursor: pointer;
 }
