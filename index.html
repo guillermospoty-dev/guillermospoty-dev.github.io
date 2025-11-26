@@ -282,20 +282,39 @@ const toleranceValues = {
   "Silver": "±10%"
 };
 
-/* Populate dropdown menus */
 function loadOptions() {
+
+  // Clear previous options to avoid duplicates
+  document.querySelectorAll(".digit-band").forEach(sel => {
+    sel.innerHTML = ""; // <-- THIS FIXES THE PROBLEM
+  });
+  multiplier.innerHTML = "";
+  tolerance.innerHTML = "";
+
+  // Fill digit bands (Band 1, Band 2, Band 3)
   document.querySelectorAll(".digit-band").forEach(sel => {
     digitColors.forEach((color, index) => {
-      sel.insertAdjacentHTML("beforeend", `<option value="${index}">${color}</option>`);
+      sel.insertAdjacentHTML(
+        "beforeend",
+        `<option value="${index}">${color}</option>`
+      );
     });
   });
 
+  // Fill multiplier list
   for (let color in multiplierValues) {
-    multiplier.insertAdjacentHTML("beforeend", `<option value="${multiplierValues[color]}">${color}</option>`);
+    multiplier.insertAdjacentHTML(
+      "beforeend",
+      `<option value="${multiplierValues[color]}">${color}</option>`
+    );
   }
 
+  // Fill tolerance list
   for (let color in toleranceValues) {
-    tolerance.insertAdjacentHTML("beforeend", `<option value="${toleranceValues[color]}">${color} (${toleranceValues[color]})</option>`);
+    tolerance.insertAdjacentHTML(
+      "beforeend",
+      `<option value="${toleranceValues[color]}">${color} (${toleranceValues[color]})</option>`
+    );
   }
 }
 
@@ -335,6 +354,7 @@ document.getElementById("calculatorModal").addEventListener("shown.bs.modal", lo
 </body>
 
 </html>
+
 
 
 
