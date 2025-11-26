@@ -166,6 +166,29 @@ const preloader = document.querySelector('#preloader');
 
 })();
 
+function updatePreview() {
+  const colorNames = [...digitColors, "Gold", "Silver"];
+
+  const band1Color = colorNames[band1.value];
+  const band2Color = colorNames[band2.value];
+
+  pv-band1.style.backgroundColor = band1Color.toLowerCase();
+  pv-band2.style.backgroundColor = band2Color.toLowerCase();
+
+  // Band 3 only for 5-band mode
+  if (mode.value === "5") {
+    let b3Color = colorNames[band3.value];
+    pv-band3.style.display = "block";
+    pv-band3.style.backgroundColor = b3Color.toLowerCase();
+  } else {
+    pv-band3.style.display = "none";
+  }
+
+  // Multiplier and tolerance use object keys
+  pv-multiplier.style.backgroundColor = multiplier.options[multiplier.selectedIndex].textContent.toLowerCase();
+  pv-tolerance.style.backgroundColor = tolerance.options[tolerance.selectedIndex].textContent.split(" ")[0].toLowerCase();
+}
+
 
 
 
