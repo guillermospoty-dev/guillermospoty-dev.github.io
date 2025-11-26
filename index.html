@@ -164,8 +164,73 @@
       </div>
     </div>
   </footer>
+  
 
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+
+   <!-- Resistor Calculator Modal -->
+<div class="modal fade" id="calculatorModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content card-surface">
+      <div class="modal-header">
+        <h5 class="modal-title">Resistor Color Code Calculator</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Band mode selector -->
+        <div class="mb-3">
+          <label class="form-label">Select mode:</label>
+          <select id="mode" class="form-select">
+            <option value="4">4-Band</option>
+            <option value="5">5-Band</option>
+          </select>
+        </div>
+
+        <!-- Calculator form -->
+        <div id="calculator-form" class="row g-3">
+
+          <div class="col-md-4">
+            <label class="form-label">Band 1</label>
+            <select id="band1" class="form-select digit-band"></select>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Band 2</label>
+            <select id="band2" class="form-select digit-band"></select>
+          </div>
+
+          <div class="col-md-4" id="band3-container" style="display:none;">
+            <label class="form-label">Band 3</label>
+            <select id="band3" class="form-select digit-band"></select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Multiplier</label>
+            <select id="multiplier" class="form-select"></select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Tolerance</label>
+            <select id="tolerance" class="form-select"></select>
+          </div>
+
+        </div>
+
+        <!-- Result -->
+        <h4 class="text-center mt-4">Resistance: <span id="result">—</span></h4>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="calculateResistor()">Calculate</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
@@ -173,8 +238,10 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
+  <script src="assets/js/main.js"></script>
 
-  <script>
+
+    <script>
 /* COLOR VALUES */
 const digitColors = [
   "Black","Brown","Red","Orange","Yellow","Green","Blue","Violet","Grey","White"
@@ -256,76 +323,15 @@ function calculateResistor() {
 document.getElementById("calculatorModal").addEventListener("shown.bs.modal", loadOptions);
 </script>
 
-  <script src="assets/js/main.js"></script>
 
 
 
-
-  <!-- Resistor Calculator Modal -->
-<div class="modal fade" id="calculatorModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content card-surface">
-      <div class="modal-header">
-        <h5 class="modal-title">Resistor Color Code Calculator</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-
-        <!-- Band mode selector -->
-        <div class="mb-3">
-          <label class="form-label">Select mode:</label>
-          <select id="mode" class="form-select">
-            <option value="4">4-Band</option>
-            <option value="5">5-Band</option>
-          </select>
-        </div>
-
-        <!-- Calculator form -->
-        <div id="calculator-form" class="row g-3">
-
-          <div class="col-md-4">
-            <label class="form-label">Band 1</label>
-            <select id="band1" class="form-select digit-band"></select>
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">Band 2</label>
-            <select id="band2" class="form-select digit-band"></select>
-          </div>
-
-          <div class="col-md-4" id="band3-container" style="display:none;">
-            <label class="form-label">Band 3</label>
-            <select id="band3" class="form-select digit-band"></select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Multiplier</label>
-            <select id="multiplier" class="form-select"></select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Tolerance</label>
-            <select id="tolerance" class="form-select"></select>
-          </div>
-
-        </div>
-
-        <!-- Result -->
-        <h4 class="text-center mt-4">Resistance: <span id="result">—</span></h4>
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-primary" onclick="calculateResistor()">Calculate</button>
-      </div>
-    </div>
-  </div>
-</div>
+ 
   
 </body>
 
 </html>
+
 
 
 
