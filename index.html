@@ -316,6 +316,17 @@ function loadOptions() {
       `<option value="${toleranceValues[color]}">${color} (${toleranceValues[color]})</option>`
     );
   }
+
+  document.getElementById("calculatorModal").addEventListener("shown.bs.modal", () => {
+  loadOptions();
+
+  // Attach onchange listeners
+  [band1, band2, band3, multiplier, tolerance, mode].forEach(el => {
+    el.addEventListener("change", updatePreview);
+  });
+
+  updatePreview(); // Initialize preview
+});
 }
 
 /* Handle mode switching */
@@ -359,6 +370,7 @@ document.getElementById("calculatorModal").addEventListener("shown.bs.modal", lo
 </body>
 
 </html>
+
 
 
 
