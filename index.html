@@ -249,9 +249,8 @@
 
   <script src="assets/js/main.js"></script>
 
-
 <script>
-/* COLORS */
+/* COLOR VALUES */
 const digitColors = [
   "Black","Brown","Red","Orange","Yellow","Green","Blue","Violet","Grey","White"
 ];
@@ -282,111 +281,60 @@ const toleranceValues = {
   "Silver": "±10%"
 };
 
-/* MAP COLORS TO HEX FOR PREVIEW */
-const colorHex = {
-  Black: "#000000",
-  Brown: "#8B4513",
-  Red: "#FF0000",
-  Orange: "#FF8C00",
-  Yellow: "#FFD700",
-  Green: "#008000",
-  Blue: "#0000FF",
-  Violet: "#9400D3",
-  Grey: "#808080",
-  White: "#FFFFFF",
-  Gold: "#D4AF37",
-  Silver: "#C0C0C0"
-};
-
-/* Populate dropdowns */
+/* Populate dropdown menus */
 function loadOptions() {
-  document.querySelectorAll(".digit-band").forEach(sel => sel.innerHTML = "");
-  multiplier.innerHTML = "";
-  tolerance.innerHTML = "";
-
-  digitColors.forEach((color, index) => {
-    document.querySelectorAll(".digit-band").forEach(sel => {
-      sel.insertAdjacentHTML("beforeend",
-        `<option value="${index}">${color}</option>`
-      );
+  document.querySelectorAll(".digit-band").forEach(sel => {
+    digitColors.forEach((color, index) => {
+      sel.insertAdjacentHTML("beforeend", `<option value="${index}">${color}</option>`);
     });
   });
 
   for (let color in multiplierValues) {
-    multiplier.insertAdjacentHTML(
-      "beforeend",
-      `<option value="${multiplierValues[color]}">${color}</option>`
-    );
+    multiplier.insertAdjacentHTML("beforeend", `<option value="${multiplierValues[color]}">${color}</option>`);
   }
 
   for (let color in toleranceValues) {
-    tolerance.insertAdjacentHTML(
-      "beforeend",
-      `<option value="${toleranceValues[color]}">${color}</option>`
-    );
+    tolerance.insertAdjacentHTML("beforeend", `<option value="${toleranceValues[color]}">${color} (${toleranceValues[color]})</option>`);
   }
 }
 
-/* Live preview */
-function updatePreview() {
-  pv_band1.style.background = colorHex[band1.options[band1.selectedIndex].text];
-  pv_band2.style.background = colorHex[band2.options[band2.selectedIndex].text];
-  
-  if (mode.value === "5") {
-    pv_band3.style.display = "inline-block";
-    pv_band3.style.background = colorHex[band3.options[band3.selectedIndex].text];
-  } else {
-    pv_band3.style.display = "none";
-  }
+/* Handle mode switching */
+document.getElementById("mode").addEventListener("change", function () {
+  document.getElementById("band3-container").style.display =
+    this.value === "5" ? "block" : "none";
+});
 
-  pv_multiplier.style.background = colorHex[multiplier.options[multiplier.selectedIndex].text];
-  pv_tolerance.style.background = colorHex[tolerance.options[tolerance.selectedIndex].text];
-}
-
-/* Calculate resistance */
+/* Calculate function */
 function calculateResistor() {
-  const modeVal = mode.value;
-
+  const mode = document.getElementById("mode").value;
   let b1 = parseInt(band1.value);
   let b2 = parseInt(band2.value);
   let multiplierVal = parseFloat(multiplier.value);
   let tol = tolerance.value;
 
-  let base = (modeVal === "5")
-    ? (b1 * 100 + b2 * 10 + parseInt(band3.value))
-    : (b1 * 10 + b2);
+  let base;
 
-  let ohms = base * multiplierVal;
+  if (mode === "4") {
+    base = (b1 * 10 + b2);
+  } else {
+    let b3 = parseInt(band3.value);
+    base = (b1 * 100 + b2 * 10 + b3);
+  }
 
-  result.textContent = ohms.toLocaleString() + " Ω " + tol;
+  let resistance = base * multiplierVal;
+
+  document.getElementById("result").textContent =
+    resistance.toLocaleString() + " Ω " + tol;
 }
 
-/* OPEN MODAL → INITIALIZE */
-document.getElementById("calculatorModal").addEventListener("shown.bs.modal", () => {
-  loadOptions();
-  updatePreview();
-
-  // Attach events only once
-  [band1, band2, band3, multiplier, tolerance, mode].forEach(el => {
-    el.onchange = updatePreview;
-  });
-});
-
-/* Show/hide 3rd band when switching mode */
-mode.addEventListener("change", () => {
-  document.getElementById("band3-container").style.display =
-    mode.value === "5" ? "block" : "none";
-  updatePreview();
-});
+/* Load dropdown values when modal opens */
+document.getElementById("calculatorModal").addEventListener("shown.bs.modal", loadOptions);
 </script>
-
-
-
- 
   
 </body>
 
 </html>
+
 
 
 
