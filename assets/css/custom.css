@@ -95,3 +95,72 @@
   cursor: pointer;
 }
 
+/* Custom CSS for LAB 5 Forms */
+
+.rating-label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--default-color, #333); 
+    display: block; 
+    text-align: left;
+}
+
+.rating-input {
+    max-width: 100px; /* Make the input box smaller for the 1-10 rating */
+    text-align: center;
+}
+
+/* Style for the average display */
+.average-display {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* Color codes for the average */
+.average-red {
+    background-color: #ffdddd; /* Light red background */
+    color: #cc0000; /* Dark red text */
+    border: 1px solid #cc0000;
+}
+.average-orange {
+    background-color: #ffebcc; /* Light orange background */
+    color: #e68a00; /* Dark orange text */
+    border: 1px solid #e68a00;
+}
+.average-green {
+    background-color: #ddffdd; /* Light green background */
+    color: #008000; /* Dark green text */
+    border: 1px solid #008000;
+}
+
+/* Style for the confirmation popup */
+#submission-confirmation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 40px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    font-size: 1.5em;
+    display: none; /* Initially hidden */
+    text-align: center;
+    /* Optional: Add a simple animation for visibility */
+    animation: fadeinout 4s forwards;
+}
+
+@keyframes fadeinout {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
