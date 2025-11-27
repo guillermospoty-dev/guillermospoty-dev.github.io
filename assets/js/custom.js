@@ -130,24 +130,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- FINAL PHONE MASKING LOGIC (The definitive fix) ---
+    const phoneInput = document.getElementById('phone');
+    const FIXED_PREFIX = '+370 6';
+    const MAX_DIGITS = 8; // The 6xx xxxxx part
+
     if (phoneInput) {
         phoneInput.setAttribute('maxlength', 15);
         
-        // Ensure initial value is set correctly
+        // 1. Initial setting of the prefix
         if (!phoneInput.value.startsWith(FIXED_PREFIX)) {
              phoneInput.value = FIXED_PREFIX;
         }
 
+        // 2. Main Input Event Handler
         phoneInput.addEventListener('input', function(e) {
-            let start = this.selectionStart;
-            let end = this.selectionEnd;
-
-            // 1. Remove non-digits from the input, keeping only the 8 mobile digits
-            let digits = this.value.substring(FIXED_PREFIX.length).replace(/\D/g, '').substring(0, MAX_MOBILE_DIGITS); 
+            // Get raw digits from the input field
+            let digits = this.value.replace(/\D/g, ''); 
+            
+            // Remove the country code (370) and mobile prefix (6), keeping max 8 digits
+            if (digits.startsWith('3706')) {
+                digits = digits.substring(4, 12);
+            } else {
+                digits = ''; // Clear if prefix is missing
+            }
             
             let maskedValue = FIXED_PREFIX;
-
-            // 2. Apply the 'xx xxxxx' mask
+            
+            // 3. Apply the 'xx xxxxx' mask to the remaining 8 digits
             if (digits.length > 0) {
                 // First 2 digits (xx)
                 maskedValue += digits.substring(0, 2); 
@@ -157,7 +166,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 maskedValue += ' ' + digits.substring(2, 7);
             }
             
-            this.value = maskedValue;
+            // If the user hasn't typed anything yet but focused the field, keep the prefix
+            if (maskedValue.length < FIXED_PREFIX.length + 1) {
+                this.value = FIXED_PREFIX;
+            } else {
+                this.value = maskedValue;
+            }
+
+            validateField(this);
+            checkFormValidity();
+        });
+
+        // 4. Initial check and prefix protection on keydown
+        phoneInput.addEventListener('keydown', function(e) {
+            // Protect the prefix from being deleted
+            if (e.target.selectionStart <= FIXED_PREFIX.length && (e.key === 'Backspace' || e.key === 'Delete')) {
+                e.preventDefault();
+            }
+        });
+
+        // Initial validation run
+        validateField(phoneInput);
+        checkFormValidity();
+    }
+    
+    // ... (The rest of the file remains the same) ...
 
             // 3. Ensure cursor stays at the end (simplest way to handle masking and cursor)
             this.selectionStart = this.selectionEnd = maskedValue.length;
