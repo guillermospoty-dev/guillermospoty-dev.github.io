@@ -151,6 +151,67 @@
     </div>
   </div>
 </section>
+    <section id="contact" class="contact section">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Contact Me</h2>
+                <p>If you have any questions or feedback, please fill out the form below. Also, rate your experience!</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form id="contact-form" action="forms/contact.php" method="post" role="form" class="php-email-form">
+                    <div class="row gy-4">
+        
+                        <div class="col-md-6">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="surname" class="form-control" id="surname" placeholder="Your Surname" required>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number (e.g., +370 6xx xxxxx)" required>
+                        </div>
+        
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="address" id="address" placeholder="Address" required>
+                        </div>
+        
+                        <div class="col-md-12">
+                            <label class="form-label rating-label">Rating Question 1: How satisfied are you with the design? (1-10)</label>
+                            <input type="number" class="form-control rating-input" name="rating1" min="1" max="10" value="5" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label rating-label">Rating Question 2: How useful is the calculator project? (1-10)</label>
+                            <input type="number" class="form-control rating-input" name="rating2" min="1" max="10" value="5" required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label rating-label">Rating Question 3: How clear is the information presented? (1-10)</label>
+                            <input type="number" class="form-control rating-input" name="rating3" min="1" max="10" value="5" required>
+                        </div>
+                        
+                        <div class="col-md-12 text-center">
+                            <div class="loading">Sending</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                            
+                            <button type="submit" id="submit-button">Send Message</button>
+                        </div>
+        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
 </main>
 
   <footer id="footer" class="footer light-background">
@@ -345,6 +406,7 @@ document.getElementById("calculatorModal").addEventListener("shown.bs.modal", lo
 </body>
 
 </html>
+
 
 
 
