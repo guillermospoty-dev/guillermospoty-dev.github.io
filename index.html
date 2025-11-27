@@ -151,57 +151,33 @@
     </div>
   </div>
 </section>
-    <section id="contact" class="contact section">
+</main>
+<footer id="footer" class="footer light-background">
     <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row">
+        <div class="row text-center mb-4">
             <div class="col-lg-12">
-                <h2>Contact Me</h2>
-                <p>If you have any questions or feedback, please fill out the form below. Also, rate your experience!</p>
+                <h2 style="font-size: 2em; margin-bottom: 10px;">Contact & Feedback</h2>
+                <p>Please use this form to leave feedback and rate your experience.</p>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <form id="contact-form" action="forms/contact.php" method="post" role="form" class="php-email-form">
+                <form id="contact-form" action="#" method="post" role="form" class="php-email-form">
                     <div class="row gy-4">
         
-                        <div class="col-md-6">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="surname" class="form-control" id="surname" placeholder="Your Surname" required>
-                        </div>
+                        <div class="col-md-6"><input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required></div>
+                        <div class="col-md-6"><input type="text" name="surname" class="form-control" id="surname" placeholder="Your Surname" required></div>
+                        <div class="col-md-6"><input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required></div>
+                        <div class="col-md-6"><input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" required></div>
+                        <div class="col-md-12"><input type="text" class="form-control" name="address" id="address" placeholder="Address" required></div>
         
-                        <div class="col-md-6">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number (e.g., +370 6xx xxxxx)" required>
-                        </div>
-        
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" name="address" id="address" placeholder="Address" required>
-                        </div>
-        
-                        <div class="col-md-12">
-                            <label class="form-label rating-label">Rating Question 1: How satisfied are you with the design? (1-10)</label>
-                            <input type="number" class="form-control rating-input" name="rating1" min="1" max="10" value="5" required>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label rating-label">Rating Question 2: How useful is the calculator project? (1-10)</label>
-                            <input type="number" class="form-control rating-input" name="rating2" min="1" max="10" value="5" required>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label rating-label">Rating Question 3: How clear is the information presented? (1-10)</label>
-                            <input type="number" class="form-control rating-input" name="rating3" min="1" max="10" value="5" required>
-                        </div>
+                        <div class="col-md-12"><label class="form-label rating-label">Rating 1: Design Satisfaction (1-10)</label><input type="number" class="form-control rating-input" name="rating1" min="1" max="10" value="5" required></div>
+                        <div class="col-md-12"><label class="form-label rating-label">Rating 2: Calculator Usefulness (1-10)</label><input type="number" class="form-control rating-input" name="rating2" min="1" max="10" value="5" required></div>
+                        <div class="col-md-12"><label class="form-label rating-label">Rating 3: Information Clarity (1-10)</label><input type="number" class="form-control rating-input" name="rating3" min="1" max="10" value="5" required></div>
                         
                         <div class="col-md-12 text-center">
-                            <div class="loading">Sending</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Your message has been sent. Thank you!</div>
-                            
                             <button type="submit" id="submit-button">Send Message</button>
                         </div>
         
@@ -209,23 +185,18 @@
                 </form>
             </div>
         </div>
-    </div>
-</section>
-</main>
-</main>
 
-  <footer id="footer" class="footer light-background">
-    <div class="container">
-      <div class="copyright text-center">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">MyPortfolio</strong> <span>All Rights Reserved</span></p>
-      </div>
-      <div class="social-links d-flex justify-content-center">
-        <a href="#"><i class="bi bi-twitter-x"></i></a>
-        <a href="#"><i class="bi bi-instagram"></i></a>
-        <a href="#"><i class="bi bi-linkedin"></i></a>
-      </div>
+        <div class="copyright text-center" style="margin-top: 40px;">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">MyPortfolio</strong> <span>All Rights Reserved</span></p>
+        </div>
+        <div class="social-links d-flex justify-content-center">
+            <a href="https://twitter.com/YourTwitter" target="_blank"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://instagram.com/YourInstagram" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+
     </div>
-  </footer>
+</footer>
   
 
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -406,6 +377,7 @@ document.getElementById("calculatorModal").addEventListener("shown.bs.modal", lo
 </body>
 
 </html>
+
 
 
 
