@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
     const submitButton = document.getElementById('submit-button');
+    const phoneInput = document.getElementById('phone');
     const formContainer = contactForm ? contactForm.parentNode : null;
+    const FIXED_PREFIX = '+370 6';
+    const MAX_MOBILE_DIGITS = 8; // The 6xx xxxxx part
 
-    if (!contactForm || !formContainer) {
-        console.error('Contact form or its container not found.');
+    if (!contactForm || !formContainer || !phoneInput) {
+        // Essential elements must exist
+        console.error('One or more form elements not found.');
         return;
     }
     
@@ -45,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         phone: {
             required: true,
-            // Strict pattern checking the final masked format
             pattern: /^\+370\s6\d{2}\s\d{5}$/, 
             error: 'Invalid format. Must be +370 6xx xxxxx.'
         },
@@ -56,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Real-time Validation Function ---
+    // --- Validation Function (Omitted for brevity, but needed) ---
     function validateField(input) {
+        // ... (validateField logic must be present here) ...
         const fieldName = input.id;
         const value = input.value.trim();
         const rules = validationRules[fieldName];
@@ -105,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Total Form Validity Check ---
     function checkFormValidity() {
+        // ... (checkFormValidity logic remains the same) ...
         let isFormValid = true;
         
         for (const fieldId in validationRules) {
@@ -124,28 +129,25 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = !isFormValid;
     }
 
-    // --- FINAL PHONE MASKING LOGIC (The Fix) ---
-    const phoneInput = document.getElementById('phone');
-    const FIXED_PREFIX = '+370 6';
-    const MAX_DIGITS = 8; // 6xx xxxxx = 8 digits
-
+    // --- FINAL PHONE MASKING LOGIC (The definitive fix) ---
     if (phoneInput) {
-        phoneInput.setAttribute('maxlength', 15); // +370 6xx xxxxx = 15 chars
+        phoneInput.setAttribute('maxlength', 15);
         
-        // Ensure the field starts with the prefix immediately
-        phoneInput.value = FIXED_PREFIX;
-        
-        // Event listener for masking and validation
+        // Ensure initial value is set correctly
+        if (!phoneInput.value.startsWith(FIXED_PREFIX)) {
+             phoneInput.value = FIXED_PREFIX;
+        }
+
         phoneInput.addEventListener('input', function(e) {
-            // 1. Get raw digits from the user's *input area* only (ignoring the prefix)
-            let rawInput = this.value.substring(FIXED_PREFIX.length).replace(/\D/g, ''); 
-            
-            // 2. Limit to MAX_DIGITS
-            let digits = rawInput.substring(0, MAX_DIGITS);
+            let start = this.selectionStart;
+            let end = this.selectionEnd;
+
+            // 1. Remove non-digits from the input, keeping only the 8 mobile digits
+            let digits = this.value.substring(FIXED_PREFIX.length).replace(/\D/g, '').substring(0, MAX_MOBILE_DIGITS); 
             
             let maskedValue = FIXED_PREFIX;
 
-            // 3. Apply the 'xx xxxxx' mask
+            // 2. Apply the 'xx xxxxx' mask
             if (digits.length > 0) {
                 // First 2 digits (xx)
                 maskedValue += digits.substring(0, 2); 
@@ -155,8 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 maskedValue += ' ' + digits.substring(2, 7);
             }
             
-            // 4. Update the value and validate
             this.value = maskedValue;
+
+            // 3. Ensure cursor stays at the end (simplest way to handle masking and cursor)
+            this.selectionStart = this.selectionEnd = maskedValue.length;
 
             validateField(this);
             checkFormValidity();
@@ -190,8 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial check on load to set the button state
     checkFormValidity();
     
-    // --- Form Submission ---
+    // --- Form Submission (Omitted for brevity, but exists) ---
     contactForm.addEventListener('submit', function(event) {
+        // ... (Submit logic remains the same) ...
         event.preventDefault();
 
         checkFormValidity();
