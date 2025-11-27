@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
-    // Finds the container where results should be displayed (the parent of the form)
     const formContainer = contactForm ? contactForm.parentNode : null;
 
     if (!contactForm || !formContainer) {
@@ -13,9 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsContainer.id = 'submission-results-container';
     resultsContainer.style.marginTop = '20px'; 
     resultsContainer.style.padding = '15px';
-    resultsContainer.style.backgroundColor = '#f9f9f9'; // Light background for visibility
+    resultsContainer.style.backgroundColor = '#f9f9f9'; 
     resultsContainer.style.borderRadius = '8px';
-    resultsContainer.style.textAlign = 'left'; // Align the list text to the left
+    resultsContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+    resultsContainer.style.textAlign = 'left'; 
+    resultsContainer.style.maxWidth = '600px'; 
+    resultsContainer.style.margin = '20px auto 0 auto';
     
     formContainer.appendChild(resultsContainer);
 
@@ -27,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     contactForm.addEventListener('submit', function(event) {
-        // Prevent default page reload
         event.preventDefault();
 
         // Gather form data into a JavaScript object
@@ -37,8 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
             data[key] = value;
         }
 
-        // --- User's Task 1: Print the object in the browser console ---
-        console.log('Form Submission Data Object:', data);
+        // --- Console Print (Task 1) ---
+        console.groupCollapsed('--- FORM SUBMISSION DATA OBJECT ---');
+        console.log(data); 
+        console.groupEnd();
 
         // Calculate the average rating
         const rating1 = +data.rating1 || 0; 
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sum = rating1 + rating2 + rating3;
         const average = (sum / 3).toFixed(1);
 
-        // --- User's Task 3: Color-code the average value ---
+        // Color-code the average value
         let colorClass = '';
         if (average >= 7) {
             colorClass = 'average-green';
@@ -58,8 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
             colorClass = 'average-red';
         }
         
-        // --- User's Task 1: Display the data below the form, one item per line ---
-        let dataListHTML = '<h4 style="text-align: center;">Submission Details</h4><ul style="list-style-type: none; padding-left: 0;">';
+        // --- Reverted Display Format: Vertical List (Task 1) ---
+        let dataListHTML = '<h4 style="text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px;">Submission Details</h4><ul style="list-style-type: none; padding-left: 0; max-width: 400px; margin: 0 auto; text-align: left;">';
+        
         const labels = {
             name: 'Name', surname: 'Surname', email: 'Email', phone: 'Phone number', 
             address: 'Address', rating1: 'Design Rating', rating2: 'Usefulness Rating', 
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         dataListHTML += '</ul>';
 
-        // --- User's Task 2: Calculate and display the average rating ---
+        // --- Display the average rating (Task 2 & 3) ---
         const userName = `${data.name} ${data.surname}`;
         const averageHTML = `<p style="margin-top: 15px; font-size: 1.2em; text-align: center;">
             <strong>${userName}:</strong> <span class="average-display ${colorClass}">${average}</span>
@@ -81,10 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Combine and display all results
         resultsContainer.innerHTML = dataListHTML + averageHTML;
 
-        // --- User's Task 4: Show a success confirmation ---
+        // Show a success confirmation (Task 4)
         confirmationPopup.style.display = 'block';
         
-        // Hide the popup after 3 seconds
         setTimeout(() => {
             confirmationPopup.style.display = 'none';
         }, 3000); 
