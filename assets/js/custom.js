@@ -11,17 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Disable the submit button initially
     submitButton.disabled = true;
 
-    // --- DOM Elements for Result Display & Popup ---
-    const resultsContainer = document.createElement('div');
-    resultsContainer.id = 'submission-results-container';
-    resultsContainer.style.cssText = 'margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: left; max-width: 600px; margin: 20px auto 0 auto;';
-    formContainer.appendChild(resultsContainer);
-
-    const confirmationPopup = document.createElement('div');
-    confirmationPopup.id = 'submission-confirmation';
-    confirmationPopup.textContent = 'Form submitted successfully!';
-    document.body.appendChild(confirmationPopup);
+    // --- DOM Elements for Result Display & Popup (Omitted for brevity, but exist) ---
+    // ... (Result container creation logic remains the same) ...
+    const resultsContainer = document.getElementById('submission-results-container') || document.createElement('div');
+    if (!document.getElementById('submission-results-container')) {
+        resultsContainer.id = 'submission-results-container';
+        resultsContainer.style.cssText = 'margin-top: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: left; max-width: 600px; margin: 20px auto 0 auto;';
+        formContainer.appendChild(resultsContainer);
+    }
     
+    const confirmationPopup = document.getElementById('submission-confirmation') || document.createElement('div');
+    if (!document.getElementById('submission-confirmation')) {
+        confirmationPopup.id = 'submission-confirmation';
+        confirmationPopup.textContent = 'Form submitted successfully!';
+        document.body.appendChild(confirmationPopup);
+    }
+
+
     // --- Validation Rules ---
     const validationRules = {
         name: { 
@@ -41,19 +47,19 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         phone: {
             required: true,
-            // Strict pattern checking the final masked format
             pattern: /^\+370\s6\d{2}\s\d{5}$/, 
             error: 'Invalid format. Must be +370 6xx xxxxx.'
         },
         address: {
             required: true,
-            minlength: 5, // Ensures "meaningful text"
+            minlength: 5, 
             error: 'Address must be at least 5 characters long.'
         }
     };
 
     // --- Real-time Validation Function ---
     function validateField(input) {
+        // ... (validateField function logic remains the same) ...
         const fieldName = input.id;
         const value = input.value.trim();
         const rules = validationRules[fieldName];
@@ -101,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Total Form Validity Check ---
     function checkFormValidity() {
+        // ... (checkFormValidity logic remains the same) ...
         let isFormValid = true;
         
         for (const fieldId in validationRules) {
             const input = document.getElementById(fieldId);
-            // Ensure phone field is always validated strictly against the mask
             if (input && !validateField(input)) {
                 isFormValid = false;
             }
@@ -121,57 +127,66 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = !isFormValid;
     }
 
-    // --- FINAL FIX: Phone Number Input Masking ---
+    // --- FINAL FIX: Phone Number Input Masking (FIXED) ---
     const phoneInput = document.getElementById('phone');
-    if (phoneInput) {
-        phoneInput.setAttribute('maxlength', '15'); // Max length for "+370 6xx xxxxx"
-        phoneInput.addEventListener('input', function(e) {
-            // 1. Get raw digits (max 11 digits total for +3706XXXXXXXX)
-            let digits = e.target.value.replace(/\D/g, '').substring(0, 11); 
-            let maskedValue = '';
+    const FIXED_PREFIX = '+370 6';
 
-            // 2. Enforce minimum length for country code (370) and prefix (6)
-            if (digits.length > 4) {
-                // Remove any leading country code/zero, ensuring we start with the 6
-                if (!digits.startsWith('3706')) {
-                    digits = '6' + digits.substring(1); 
-                } else {
-                    digits = digits.substring(4); // Keep only the 8 mobile digits
-                }
+    if (phoneInput) {
+        phoneInput.setAttribute('maxlength', '15');
+        
+        // Ensure the field starts with the prefix immediately
+        phoneInput.value = FIXED_PREFIX;
+        
+        // Event listener for masking and validation
+        phoneInput.addEventListener('input', function(e) {
+            let cursorPosition = e.target.selectionStart;
+            let oldValue = e.target.value;
+
+            // 1. Strip all non-digits from the user's input area (excluding the prefix)
+            let digits = oldValue.replace(/\D/g, ''); 
+            
+            // Remove the country code (370) and prefix (6) digits, keeping only the 8 mobile digits
+            if (digits.startsWith('3706')) {
+                digits = digits.substring(4); 
             } else {
-                digits = ''; // Clear input if not enough digits to start masking correctly
+                digits = ''; // Clear if the prefix was somehow deleted
             }
 
-            // 3. Apply the mask if there are digits to format (max 8)
+            // 2. Format the remaining digits
+            let maskedValue = FIXED_PREFIX;
+            
             if (digits.length > 0) {
-                maskedValue = '+370 6';
-                
                 // First 2 digits (xx)
-                if (digits.length > 0) {
-                    maskedValue += digits.substring(0, 2); 
-                }
-                
+                maskedValue += digits.substring(0, 2); 
+            }
+            if (digits.length > 2) {
                 // Add space and next 5 digits (xxxxx)
-                if (digits.length > 2) {
-                    maskedValue += ' ' + digits.substring(2, 7);
-                }
-
-                // If input starts fresh, set the mask structure immediately
-            } else if (e.target.value.length > 0) {
-                 maskedValue = '+370 6';
+                maskedValue += ' ' + digits.substring(2, 7);
             }
             
-            e.target.value = maskedValue.trim();
+            // 3. Update the value
+            e.target.value = maskedValue;
+
+            // 4. Validate and check overall form state
             validateField(e.target);
             checkFormValidity();
         });
 
-        // Initial setting of the prefix
-        phoneInput.value = '+370 6';
-        validateField(phoneInput); // Initial validation run
+        // Event listener to prevent the prefix from being deleted by the user
+        phoneInput.addEventListener('keydown', function(e) {
+            // Prevent deletion of the prefix (+370 6 -> 6 characters)
+            if (e.target.selectionStart <= FIXED_PREFIX.length && (e.key === 'Backspace' || e.key === 'Delete')) {
+                e.preventDefault();
+            }
+        });
+
+        // Initial validation run
+        validateField(phoneInput);
+        checkFormValidity();
     }
 
-    // --- Attach Real-time Validation Listeners (Name, Surname, Email, Address) ---
+    // --- Attach Real-time Validation Listeners ---
+    // ... (Validation listeners logic remains the same) ...
     const fieldsToValidate = ['name', 'surname', 'email', 'address'];
     fieldsToValidate.forEach(id => {
         const input = document.getElementById(id);
@@ -180,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 validateField(this);
                 checkFormValidity();
             });
-            // Initial check on load 
             validateField(input);
         }
     });
@@ -189,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     checkFormValidity();
     
     // --- Form Submission ---
-
     contactForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
