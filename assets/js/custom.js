@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const validationRules = {
         name: { 
             required: true, 
-            pattern: /^[A-Za-zА-Яа-я\s'-]+$/, // ONLY letters, spaces, hyphens, apostrophes
+            pattern: /^[A-Za-zА-Яа-я\s'-]+$/, 
             error: 'Name can only contain letters, spaces, or hyphens.'
         },
         surname: { 
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             required: true,
             // Strict pattern checking the final masked format
             pattern: /^\+370\s6\d{2}\s\d{5}$/, 
-            error: 'Invalid format. Must be +370 6xx xxxxx (9 digits).'
+            error: 'Invalid format. Must be +370 6xx xxxxx.'
         },
         address: {
             required: true,
@@ -60,19 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let isValid = true;
         let errorMessage = '';
 
-        if (!rules) return true; // Skip if no rules defined
+        if (!rules) return true;
 
-        // Check required fields
         if (rules.required && value === '') {
             isValid = false;
             errorMessage = 'This field is required.';
         } 
-        // Check pattern/format
         else if (rules.pattern && !rules.pattern.test(value)) {
             isValid = false;
             errorMessage = rules.error;
         } 
-        // Check min length
         else if (rules.minlength && value.length < rules.minlength) {
             isValid = false;
             errorMessage = rules.error;
@@ -106,15 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkFormValidity() {
         let isFormValid = true;
         
-        // Check all validated text/email/phone/address fields
         for (const fieldId in validationRules) {
             const input = document.getElementById(fieldId);
+            // Ensure phone field is always validated strictly against the mask
             if (input && !validateField(input)) {
                 isFormValid = false;
             }
         }
         
-        // Check rating inputs (must be within 1-10 range)
         const ratingInputs = document.querySelectorAll('.rating-input');
         ratingInputs.forEach(input => {
              if (!input.checkValidity()) {
@@ -125,48 +121,57 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = !isFormValid;
     }
 
-    // --- Phone Number Input Masking (Fixed Logic) ---
+    // --- FINAL FIX: Phone Number Input Masking ---
     const phoneInput = document.getElementById('phone');
     if (phoneInput) {
         phoneInput.setAttribute('maxlength', '15'); // Max length for "+370 6xx xxxxx"
         phoneInput.addEventListener('input', function(e) {
-            // 1. Strip all non-digits
-            let digits = e.target.value.replace(/\D/g, ''); 
+            // 1. Get raw digits (max 11 digits total for +3706XXXXXXXX)
+            let digits = e.target.value.replace(/\D/g, '').substring(0, 11); 
             let maskedValue = '';
 
-            // 2. Ensure the correct country code and mobile prefix are established
-            if (!digits.startsWith('3706')) {
-                // If user pastes/types something else, start fresh with the mask structure
-                if (digits.length >= 1) {
-                    // Start building from "+370 6" and enforce the '6' prefix
+            // 2. Enforce minimum length for country code (370) and prefix (6)
+            if (digits.length > 4) {
+                // Remove any leading country code/zero, ensuring we start with the 6
+                if (!digits.startsWith('3706')) {
                     digits = '6' + digits.substring(1); 
                 } else {
-                    digits = '';
+                    digits = digits.substring(4); // Keep only the 8 mobile digits
                 }
             } else {
-                // Remove the enforced "3706" so we only deal with the 8 remaining digits
-                digits = digits.substring(4);
+                digits = ''; // Clear input if not enough digits to start masking correctly
             }
-            
-            maskedValue = '+370 6';
-            
-            // 3. Apply the '6xx xxxxx' mask
+
+            // 3. Apply the mask if there are digits to format (max 8)
             if (digits.length > 0) {
-                // First two digits after '6'
-                maskedValue += digits.substring(0, 2);
-            }
-            if (digits.length > 2) {
-                // Add space and remaining digits (max 5)
-                maskedValue += ' ' + digits.substring(2, 7);
+                maskedValue = '+370 6';
+                
+                // First 2 digits (xx)
+                if (digits.length > 0) {
+                    maskedValue += digits.substring(0, 2); 
+                }
+                
+                // Add space and next 5 digits (xxxxx)
+                if (digits.length > 2) {
+                    maskedValue += ' ' + digits.substring(2, 7);
+                }
+
+                // If input starts fresh, set the mask structure immediately
+            } else if (e.target.value.length > 0) {
+                 maskedValue = '+370 6';
             }
             
             e.target.value = maskedValue.trim();
             validateField(e.target);
             checkFormValidity();
         });
+
+        // Initial setting of the prefix
+        phoneInput.value = '+370 6';
+        validateField(phoneInput); // Initial validation run
     }
 
-    // --- Attach Real-time Validation Listeners ---
+    // --- Attach Real-time Validation Listeners (Name, Surname, Email, Address) ---
     const fieldsToValidate = ['name', 'surname', 'email', 'address'];
     fieldsToValidate.forEach(id => {
         const input = document.getElementById(id);
@@ -180,15 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Run initial check on load to set the button state correctly
+    // Initial check on load to set the button state
     checkFormValidity();
     
-    // --- Form Submission (Required Task) ---
+    // --- Form Submission ---
 
     contactForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
-        // Final check before submission
         checkFormValidity();
         if (submitButton.disabled) {
             alert("Please correct the errors in the form before submitting.");
