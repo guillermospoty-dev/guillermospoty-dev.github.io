@@ -4,10 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const phoneInput = document.getElementById('phone');
     const formContainer = contactForm ? contactForm.parentNode : null;
     const FIXED_PREFIX = '+370 6';
-    const MAX_MOBILE_DIGITS = 8; // The 6xx xxxxx part
+    const MAX_MOBILE_DIGITS = 8;
 
     if (!contactForm || !formContainer || !phoneInput) {
-        // Essential elements must exist
         console.error('One or more form elements not found.');
         return;
     }
@@ -15,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Disable the submit button initially
     submitButton.disabled = true;
 
-    // --- DOM Elements for Result Display & Popup (Omitted for brevity, but exist) ---
+    // --- DOM Elements for Result Display & Popup (Keeping for functionality) ---
     const resultsContainer = document.getElementById('submission-results-container') || document.createElement('div');
     if (!document.getElementById('submission-results-container')) {
         resultsContainer.id = 'submission-results-container';
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(confirmationPopup);
     }
     
-    // --- Validation Rules (Required for Task) ---
+    // --- Validation Rules ---
     const validationRules = {
         name: { 
             required: true, 
@@ -59,9 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Validation Function (Omitted for brevity, but needed) ---
+    // --- Core Validation Function ---
     function validateField(input) {
-        // ... (validateField logic must be present here) ...
         const fieldName = input.id;
         const value = input.value.trim();
         const rules = validationRules[fieldName];
@@ -70,7 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!rules) return true;
 
-        if (rules.required && value === '') {
+        if (rules.required && value === FIXED_PREFIX) { // Specific check for phone prefix
+             isValid = false;
+             errorMessage = 'This field is required.';
+        }
+        else if (rules.required && value === '') {
             isValid = false;
             errorMessage = 'This field is required.';
         } 
@@ -109,18 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- Total Form Validity Check ---
     function checkFormValidity() {
-        // ... (checkFormValidity logic remains the same) ...
         let isFormValid = true;
         
+        // Check all validated text/email/phone/address fields
         for (const fieldId in validationRules) {
             const input = document.getElementById(fieldId);
+            // Run validation check, even if it hasn't been modified
             if (input && !validateField(input)) {
                 isFormValid = false;
             }
         }
         
+        // Check rating inputs (must be within 1-10 range)
         const ratingInputs = document.querySelectorAll('.rating-input');
         ratingInputs.forEach(input => {
+             // checkValidity is a native HTML5 method used for number inputs
              if (!input.checkValidity()) {
                  isFormValid = false;
              }
@@ -129,86 +134,43 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.disabled = !isFormValid;
     }
 
-    // --- FINAL PHONE MASKING LOGIC (The definitive fix) ---
-    const phoneInput = document.getElementById('phone');
-    const FIXED_PREFIX = '+370 6';
-    const MAX_DIGITS = 8; // The 6xx xxxxx part
-
+    // --- FINAL PHONE MASKING LOGIC ---
     if (phoneInput) {
         phoneInput.setAttribute('maxlength', 15);
         
-        // 1. Initial setting of the prefix
+        // 1. Enforce initial value and prevent deletion
         if (!phoneInput.value.startsWith(FIXED_PREFIX)) {
              phoneInput.value = FIXED_PREFIX;
         }
 
-        // 2. Main Input Event Handler
-        phoneInput.addEventListener('input', function(e) {
-            // Get raw digits from the input field
-            let digits = this.value.replace(/\D/g, ''); 
-            
-            // Remove the country code (370) and mobile prefix (6), keeping max 8 digits
-            if (digits.startsWith('3706')) {
-                digits = digits.substring(4, 12);
-            } else {
-                digits = ''; // Clear if prefix is missing
-            }
+        phoneInput.addEventListener('input', function() {
+            // Get raw digits, keeping only the 8 mobile digits
+            let digits = this.value.replace(/\D/g, '').substring(4, 12); 
             
             let maskedValue = FIXED_PREFIX;
-            
-            // 3. Apply the 'xx xxxxx' mask to the remaining 8 digits
+
+            // Apply the 'xx xxxxx' mask
             if (digits.length > 0) {
-                // First 2 digits (xx)
                 maskedValue += digits.substring(0, 2); 
             }
             if (digits.length > 2) {
-                // Add space and next 5 digits (xxxxx)
                 maskedValue += ' ' + digits.substring(2, 7);
             }
             
-            // If the user hasn't typed anything yet but focused the field, keep the prefix
-            if (maskedValue.length < FIXED_PREFIX.length + 1) {
-                this.value = FIXED_PREFIX;
-            } else {
-                this.value = maskedValue;
-            }
-
-            validateField(this);
-            checkFormValidity();
-        });
-
-        // 4. Initial check and prefix protection on keydown
-        phoneInput.addEventListener('keydown', function(e) {
-            // Protect the prefix from being deleted
-            if (e.target.selectionStart <= FIXED_PREFIX.length && (e.key === 'Backspace' || e.key === 'Delete')) {
-                e.preventDefault();
-            }
-        });
-
-        // Initial validation run
-        validateField(phoneInput);
-        checkFormValidity();
-    }
-    
-    // ... (The rest of the file remains the same) ...
-
-            // 3. Ensure cursor stays at the end (simplest way to handle masking and cursor)
+            // Update value and place cursor at the end
+            this.value = maskedValue;
             this.selectionStart = this.selectionEnd = maskedValue.length;
 
             validateField(this);
             checkFormValidity();
         });
 
-        // Prevent deletion of the prefix
+        // Prevent prefix deletion on keydown
         phoneInput.addEventListener('keydown', function(e) {
             if (e.target.selectionStart <= FIXED_PREFIX.length && (e.key === 'Backspace' || e.key === 'Delete')) {
                 e.preventDefault();
             }
         });
-
-        // Initial validation run
-        validateField(phoneInput);
-        checkFormValidity();
     }
 
     // --- Attach Real-time Validation Listeners ---
@@ -220,21 +182,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 validateField(this);
                 checkFormValidity();
             });
-            validateField(input);
+            // Initial validation run on focus to show errors instantly
+            input.addEventListener('focus', function() {
+                validateField(this);
+                checkFormValidity();
+            });
         }
     });
     
     // Initial check on load to set the button state
     checkFormValidity();
     
-    // --- Form Submission (Omitted for brevity, but exists) ---
+    // --- Form Submission (Task 1, 2, 3, 4) ---
     contactForm.addEventListener('submit', function(event) {
         // ... (Submit logic remains the same) ...
         event.preventDefault();
 
         checkFormValidity();
         if (submitButton.disabled) {
-            alert("Please correct the errors in the form before submitting.");
+            alert("Please fix the errors in the form before submitting.");
             return;
         }
 
