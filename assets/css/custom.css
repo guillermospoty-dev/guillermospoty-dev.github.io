@@ -206,27 +206,27 @@
 /* Ensure rating labels are centered (from previous step) */
 .rating-label {
     text-align: center;
-}#memory-game .card-surface {
-    max-width: 900px; /* Limit the max width for better card alignment */
+
+/* ... (Existing styles up to the Memory Game section) ... */
+
+/* --- Memory Game Styles --- */
+#memory-game .card-surface {
+    max-width: 900px;
 }
 
-/* Flex container for the game board */
-/* Update / Replace existing #game-board block */
+/* FIX: Use 4 columns for all modes for a cleaner look */
 #game-board {
-    display: grid; /* Changed to use CSS Grid */
-    grid-template-columns: repeat(4, 1fr); /* Default to 4 columns */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Enforces 4 columns */
     justify-content: center;
     gap: 10px; 
     padding: 20px;
     background-color: #f5f5f5;
     border-radius: 8px;
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-    max-width: 600px; /* Constrain the max width of the board itself */
-    margin: 0 auto; /* Center the board */
+    max-width: 500px; /* Adjusted max-width for better 4-column centering */
+    margin: 0 auto;
 }
-
-/* Specific Grid Layout for Hard Mode (Optional, if you want 6 columns) */
-/* If you want 4x4, the default grid-template-columns: repeat(4, 1fr); works fine. */
 
 /* Card Styles */
 .memory-card {
@@ -239,83 +239,29 @@
     touch-action: manipulation;
 }
 
+/* ... (Existing card-inner and card-face styles) ... */
+
+/* FIX: Add style for custom images */
+.memory-card .card-image {
+    max-width: 80%;
+    max-height: 80%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Ensure icon size is maintained */
+.card-front i {
+    font-size: 36px;
+}
 @media (max-width: 576px) {
     #game-board {
         gap: 5px;
         padding: 10px;
-        max-width: 400px;
+        max-width: 350px; /* Adjust for small screens */
     }
-    .card-front i {
+    .card-front i, .memory-card .card-image {
+        max-width: 70%;
+        max-height: 70%;
         font-size: 24px;
     }
 }
-
-
-
-/* Inner card content (front and back) */
-.card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-}
-
-/* Apply the flip rotation */
-.memory-card.flip .card-inner {
-    transform: rotateY(180deg);
-}
-
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden; /* Hide the back of the face when flipped */
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-.card-back {
-    background: #0044cc; /* Back face color (Blue from btn-custom) */
-    color: white;
-    transform: rotateY(0deg);
-    border: 3px solid #003399;
-}
-
-.card-front {
-    background: #ffffff; /* Front face color (White) */
-    color: #333333;
-    transform: rotateY(180deg);
-    border: 3px solid #ddd;
-}
-
-/* Matched and Disabled State */
-.memory-card.match .card-front,
-.memory-card.match .card-back {
-    border-color: #008000; /* Green border for matched cards */
-}
-
-.memory-card.disabled {
-    pointer-events: none; /* Disable clicking while checking a match */
-}
-
-/* Icons/Images within the card */
-.card-front i {
-    font-size: 36px;
-}
-
-@media (max-width: 576px) {
-    .card-front i {
-        font-size: 24px;
-    }
-}
-
-
-
