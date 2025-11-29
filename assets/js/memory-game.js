@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderBoard(cardClass) {
     boardContainer.innerHTML = ''; // Clear board
     
+    // The grid-template-columns is now handled purely by CSS.
+    boardContainer.style.display = 'grid';
+    
     // Set column styles on the container itself
     const totalCards = cards.length;
     // Determine the number of columns based on total cards (12 -> 4, 16 -> 4)
