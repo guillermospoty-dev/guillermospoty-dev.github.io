@@ -76,42 +76,31 @@ document.addEventListener('DOMContentLoaded', () => {
         disableAllCards(true); 
     }
     
-    // --- RENDER THE GAME BOARD ---
     function renderBoard(cardClass) {
-        boardContainer.innerHTML = ''; // Clear board
+    boardContainer.innerHTML = ''; // Clear board
+    boardContainer.style.display = 'grid'; 
+    
+    cards.forEach((icon, index) => { // Use 'icon' as the variable name again
+        const cardElement = document.createElement('div');
+        cardElement.classList.add('memory-card', cardClass);
+        // We still use data-value for the matching check
+        cardElement.setAttribute('data-value', icon); 
+        cardElement.id = `card-${index}`;
         
-        // The grid-template-columns is now handled purely by CSS (set to 4 columns)
-        boardContainer.style.display = 'grid'; 
-        
-        cards.forEach((iconOrImage, index) => { 
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('memory-card', cardClass);
-            // Changed from 'data-icon' to 'data-value'
-            cardElement.setAttribute('data-value', iconOrImage); 
-            cardElement.id = `card-${index}`;
-            
-            // Check if it's an image file or a Bootstrap icon class
-            let frontContent;
-            if (iconOrImage.includes('.')) {
-                // If it contains a dot, assume it's an image path
-                frontContent = `<img src="assets/img/${iconOrImage}" alt="Card Image" class="card-image">`;
-            } else {
-                // Otherwise, treat it as a Bootstrap icon class
-                frontContent = `<i class="bi ${iconOrImage}"></i>`;
-            }
+        // Always render an icon tag
+        const frontContent = `<i class="bi ${icon}"></i>`;
 
-            cardElement.innerHTML = `
-                <div class="card-inner">
-                    <div class="card-front">${frontContent}</div>
-                    <div class="card-back">M</div>
-                </div>
-            `;
-            boardContainer.appendChild(cardElement);
-        });
-        
-        // Attach event listeners to newly created cards
-        document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
-    }
+        cardElement.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front">${frontContent}</div>
+                <div class="card-back">M</div> 
+            </div>
+        `;
+        boardContainer.appendChild(cardElement);
+    });
+    
+    document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
+}
 
     // --- CARD FLIPPING LOGIC ---
     function flipCard() {
