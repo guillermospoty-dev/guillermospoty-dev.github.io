@@ -9,16 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const winMessage = document.getElementById('win-message');
     const finalMovesSpan = document.getElementById('final-moves');
 
+    // --- GAME DATA (USING RELIABLE BOOTSTRAP SYMBOLS) ---
     const cardIcons = [
-    'bi-hammer', 
-    'bi-wrench-adjustable', 
-    'bi-compass', 
-    'bi-rulers', 
-    'bi-gear', 
-    'bi-thermometer-half',
-    'bi-diagram-3',
-    'bi-lightning'
-];
+        'bi-hammer', 
+        'bi-wrench-adjustable', 
+        'bi-compass', 
+        'bi-rulers', 
+        'bi-gear', 
+        'bi-thermometer-half',
+        'bi-diagram-3',
+        'bi-lightning'
+    ];
     
     // --- GAME STATE VARIABLES ---
     let cards = [];
@@ -40,25 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // ES6 swap
+            [array[i], array[j]] = [array[j], array[i]]; 
         }
         return array;
     }
 
     // --- GAME INITIALIZATION ---
     function initializeGame() {
-        // Get current difficulty settings
         const difficulty = difficultySelector.value;
         const config = difficultyConfigs[difficulty];
         const uniqueCards = cardIcons.slice(0, config.totalUniqueCards);
         
-        // Create card pairs and shuffle
-        cards = [...uniqueCards, ...uniqueCards]; // Duplicate for pairs
+        cards = [...uniqueCards, ...uniqueCards];
         cards = shuffleArray(cards);
-        
         totalPairs = config.totalUniqueCards;
         
-        // Reset game state
         totalMoves = 0;
         matchedPairs = 0;
         hasFlippedCard = false;
@@ -76,31 +73,31 @@ document.addEventListener('DOMContentLoaded', () => {
         disableAllCards(true); 
     }
     
+    // --- RENDER THE GAME BOARD (SIMPLIFIED FOR ICONS) ---
     function renderBoard(cardClass) {
-    boardContainer.innerHTML = ''; // Clear board
-    boardContainer.style.display = 'grid'; 
-    
-    cards.forEach((icon, index) => { // Use 'icon' as the variable name again
-        const cardElement = document.createElement('div');
-        cardElement.classList.add('memory-card', cardClass);
-        // We still use data-value for the matching check
-        cardElement.setAttribute('data-value', icon); 
-        cardElement.id = `card-${index}`;
+        boardContainer.innerHTML = ''; 
+        boardContainer.style.display = 'grid'; 
         
-        // Always render an icon tag
-        const frontContent = `<i class="bi ${icon}"></i>`;
+        cards.forEach((icon, index) => { 
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('memory-card', cardClass);
+            cardElement.setAttribute('data-value', icon); 
+            cardElement.id = `card-${index}`;
+            
+            // Always render an icon tag for the front face
+            const frontContent = `<i class="bi ${icon}"></i>`;
 
-        cardElement.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">${frontContent}</div>
-                <div class="card-back">M</div> 
-            </div>
-        `;
-        boardContainer.appendChild(cardElement);
-    });
-    
-    document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
-}
+            cardElement.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-front">${frontContent}</div>
+                    <div class="card-back">M</div>
+                </div>
+            `;
+            boardContainer.appendChild(cardElement);
+        });
+        
+        document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
+    }
 
     // --- CARD FLIPPING LOGIC ---
     function flipCard() {
@@ -110,13 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
         this.classList.add('flip');
         
         if (!hasFlippedCard) {
-            // First card flipped
             hasFlippedCard = true;
             firstCard = this;
             return;
         }
         
-        // Second card flipped
         secondCard = this;
         totalMoves++;
         updateStats();
@@ -124,9 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
         checkForMatch();
     }
     
-    // --- MATCH CHECK LOGIC (FIXED) ---
+    // --- MATCH CHECK LOGIC (Using data-value) ---
     function checkForMatch() {
-        // FIX: Compare the 'data-value' attribute on both cards
+        // Now reliably comparing icon class strings
         const isMatch = firstCard.getAttribute('data-value') === secondCard.getAttribute('data-value');
         
         isMatch ? disableCards() : unflipCards();
@@ -134,17 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- MATCH FOUND ---
     function disableCards() {
-        // Cards remain flipped and are marked as 'match'
         firstCard.classList.add('match', 'disabled');
         secondCard.classList.add('match', 'disabled');
         
-        // Reset turn state
         resetBoard();
         
         matchedPairs++;
         updateStats();
         
-        // Check for win condition
         if (matchedPairs === totalPairs) {
             finalMovesSpan.textContent = totalMoves;
             winMessage.style.display = 'block';
@@ -154,20 +146,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NO MATCH ---
     function unflipCards() {
-        lockBoard = true; // Lock the board during the delay
+        lockBoard = true; 
         
         setTimeout(() => {
             firstCard.classList.remove('flip');
             secondCard.classList.remove('flip');
             
-            // Reset turn state and unlock the board
             resetBoard();
-        }, 1000); // 1 second delay
+        }, 1000); 
     }
     
     // --- RESET TURN STATE ---
     function resetBoard() {
-        // IMPORTANT: LockBoard must be reset LAST, after flip classes are removed
         [hasFlippedCard] = [false];
         [firstCard, secondCard] = [null, null];
         lockBoard = false;
@@ -179,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isDisabled) {
                 card.classList.add('disabled');
             } else {
-                // Only remove disabled class if it's not a match
                 if (!card.classList.contains('match')) {
                      card.classList.remove('disabled');
                 }
@@ -195,36 +184,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- EVENT LISTENERS ---
     
-    // Start Game Button (FIXED LOGIC)
+    // Start Game Button 
     startGameBtn.addEventListener('click', () => {
         initializeGame(); 
         
-        // 1. Lock the board and disable clicks before the preview starts
         lockBoard = true;
         disableAllCards(true); 
 
-        // 2. Show all cards for preview
         document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
         
-        // 3. Hide all cards and enable play after delay
         setTimeout(() => {
             document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flip'));
             lockBoard = false;
-            disableAllCards(false); // Enable only unmatched cards for play
+            disableAllCards(false); 
         }, 2000); 
 
         startGameBtn.style.display = 'none';
         restartGameBtn.textContent = 'Restart Game';
     });
 
-    // Restart Game Button (FIXED LOGIC)
+    // Restart Game Button 
     restartGameBtn.addEventListener('click', () => {
         initializeGame();
         
         lockBoard = true;
         disableAllCards(true); 
         
-        // Show the cards for a quick preview before play
         document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
         
         setTimeout(() => {
