@@ -9,16 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const winMessage = document.getElementById('win-message');
     const finalMovesSpan = document.getElementById('final-moves');
 
-    // --- GAME DATA ---
+    // --- GAME DATA (USING IMAGE PLACEHOLDERS) ---
+    // **IMPORTANT**: Replace these placeholders with your actual image filenames 
+    // located in the assets/img/ folder (e.g., 'my_hammer.png', 'my_wrench.jpg', etc.)
     const cardIcons = [
-        'bi-hammer', 
-        'bi-wrench-adjustable', 
-        'bi-compass', 
-        'bi-rulers', 
-        'bi-gear', 
-        'bi-thermometer-half',
-        'bi-diagram-3',
-        'bi-lightning'
+        'hammer.png', // Placeholder 1
+        'wrench.png', // Placeholder 2
+        'compass.png', // Placeholder 3
+        'rulers.png', // Placeholder 4
+        'gear.png', // Placeholder 5
+        'thermometer.png', // Placeholder 6
+        'diagram.png', // Placeholder 7
+        'lightning.png' // Placeholder 8
     ];
     
     // --- GAME STATE VARIABLES ---
@@ -33,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- CONFIGURATION ---
     const difficultyConfigs = {
-        'easy': { totalUniqueCards: 6, gridSizeClass: '4x3', cardClass: 'easy-mode' }, // 12 cards
-        'hard': { totalUniqueCards: 8, gridSizeClass: '6x4', cardClass: 'hard-mode' }  // 16 cards
+        'easy': { totalUniqueCards: 6, gridSize: '4x3', cardClass: 'easy-mode' }, // 12 cards
+        'hard': { totalUniqueCards: 8, gridSize: '4x4', cardClass: 'hard-mode' }  // 16 cards
     };
 
     // --- HELPER FUNCTION: SHUFFLE ARRAY ---
@@ -73,60 +75,51 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render the board
         renderBoard(config.cardClass);
         
-        // Add event listeners to cards
-        document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
-        
         // Initial state: Disable cards until 'Start' is pressed
         disableAllCards(true); 
     }
     
-   // --- RENDER THE GAME BOARD ---
-function renderBoard(cardClass) {
-    boardContainer.innerHTML = ''; // Clear board
-    
-    // The grid-template-columns is now handled purely by CSS.
-    boardContainer.style.display = 'grid';
-    
-    // Set column styles on the container itself
-    const totalCards = cards.length;
-    // Determine the number of columns based on total cards (12 -> 4, 16 -> 4)
-    // The previous implementation used 4 and 6, but 4 columns is usually better for mobile/tablet.
-    const columns = totalCards === 12 ? 4 : (totalCards === 16 ? 4 : 4); 
-    
-    boardContainer.style.gridTemplateColumns = `repeat(${columns}, auto)`; 
-    boardContainer.style.display = 'grid';
-    
-    cards.forEach((iconOrImage, index) => { // Renamed from 'icon'
-        const cardElement = document.createElement('div');
-        cardElement.classList.add('memory-card', cardClass);
-        cardElement.setAttribute('data-value', iconOrImage); // Changed to data-value
-        cardElement.id = `card-${index}`;
+    // --- RENDER THE GAME BOARD ---
+    function renderBoard(cardClass) {
+        boardContainer.innerHTML = ''; // Clear board
         
-        // Use an image tag if the value is a file path (contains '.')
-        let frontContent;
-        if (iconOrImage.includes('.')) {
-            frontContent = `<img src="assets/img/${iconOrImage}" alt="Card Image" class="card-image">`;
-        } else {
-            // Otherwise, treat it as a Bootstrap icon
-            frontContent = `<i class="bi ${iconOrImage}"></i>`;
-        }
+        // The grid-template-columns is now handled purely by CSS (set to 4 columns)
+        boardContainer.style.display = 'grid'; 
+        
+        cards.forEach((iconOrImage, index) => { 
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('memory-card', cardClass);
+            // Changed from 'data-icon' to 'data-value'
+            cardElement.setAttribute('data-value', iconOrImage); 
+            cardElement.id = `card-${index}`;
+            
+            // Check if it's an image file or a Bootstrap icon class
+            let frontContent;
+            if (iconOrImage.includes('.')) {
+                // If it contains a dot, assume it's an image path
+                frontContent = `<img src="assets/img/${iconOrImage}" alt="Card Image" class="card-image">`;
+            } else {
+                // Otherwise, treat it as a Bootstrap icon class
+                frontContent = `<i class="bi ${iconOrImage}"></i>`;
+            }
 
-        cardElement.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">${frontContent}</div>
-                <div class="card-back">M</div>
-            </div>
-        `;
-        boardContainer.appendChild(cardElement);
-    });
-    
-    // Attach event listeners to newly created cards
-    document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
-}
+            cardElement.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-front">${frontContent}</div>
+                    <div class="card-back">M</div>
+                </div>
+            `;
+            boardContainer.appendChild(cardElement);
+        });
+        
+        // Attach event listeners to newly created cards
+        document.querySelectorAll('.memory-card').forEach(card => card.addEventListener('click', flipCard));
+    }
+
     // --- CARD FLIPPING LOGIC ---
     function flipCard() {
         if (lockBoard) return;
-        if (this === firstCard) return; // Prevent double clicking the same card
+        if (this === firstCard) return; 
         
         this.classList.add('flip');
         
@@ -145,9 +138,10 @@ function renderBoard(cardClass) {
         checkForMatch();
     }
     
-    // --- MATCH CHECK LOGIC ---
+    // --- MATCH CHECK LOGIC (FIXED) ---
     function checkForMatch() {
-        const isMatch = firstCard.getAttribute('data-icon') === secondCard.getAttribute('data-icon');
+        // FIX: Compare the 'data-value' attribute on both cards
+        const isMatch = firstCard.getAttribute('data-value') === secondCard.getAttribute('data-value');
         
         isMatch ? disableCards() : unflipCards();
     }
@@ -172,23 +166,25 @@ function renderBoard(cardClass) {
         }
     }
 
-   // --- NO MATCH ---
-function unflipCards() {
-    lockBoard = true; // Lock the board during the delay
-    
-    setTimeout(() => {
-        firstCard.classList.remove('flip');
-        secondCard.classList.remove('flip');
+    // --- NO MATCH ---
+    function unflipCards() {
+        lockBoard = true; // Lock the board during the delay
         
-        // Reset turn state and unlock the board
-        resetBoard();
-    }, 1000); // 1 second delay
-}
+        setTimeout(() => {
+            firstCard.classList.remove('flip');
+            secondCard.classList.remove('flip');
+            
+            // Reset turn state and unlock the board
+            resetBoard();
+        }, 1000); // 1 second delay
+    }
     
     // --- RESET TURN STATE ---
     function resetBoard() {
-        [hasFlippedCard, lockBoard] = [false, false];
+        // IMPORTANT: LockBoard must be reset LAST, after flip classes are removed
+        [hasFlippedCard] = [false];
         [firstCard, secondCard] = [null, null];
+        lockBoard = false;
     }
     
     // --- DISABLE/ENABLE ALL CARDS (for start/win) ---
@@ -213,41 +209,43 @@ function unflipCards() {
 
     // --- EVENT LISTENERS ---
     
-  // Start Game Button
-startGameBtn.addEventListener('click', () => {
-    // 1. Initialize and render the new board
-    initializeGame(); 
-    
-    // 2. Lock the board and disable clicks before the preview starts
-    lockBoard = true;
-    disableAllCards(true); 
+    // Start Game Button (FIXED LOGIC)
+    startGameBtn.addEventListener('click', () => {
+        initializeGame(); 
+        
+        // 1. Lock the board and disable clicks before the preview starts
+        lockBoard = true;
+        disableAllCards(true); 
 
-    // 3. Show all cards for preview
-    document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
-    
-    // 4. Hide all cards and enable play after delay
-    setTimeout(() => {
-        document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flip'));
-        lockBoard = false;
-        disableAllCards(false); // Enable only unmatched cards for play
-    }, 2000); 
+        // 2. Show all cards for preview
+        document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
+        
+        // 3. Hide all cards and enable play after delay
+        setTimeout(() => {
+            document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flip'));
+            lockBoard = false;
+            disableAllCards(false); // Enable only unmatched cards for play
+        }, 2000); 
 
-    startGameBtn.style.display = 'none';
-    restartGameBtn.textContent = 'Restart Game';
-});
+        startGameBtn.style.display = 'none';
+        restartGameBtn.textContent = 'Restart Game';
+    });
 
-    // Restart Game Button
+    // Restart Game Button (FIXED LOGIC)
     restartGameBtn.addEventListener('click', () => {
-        // Immediate restart: reset state and re-render
         initializeGame();
+        
+        lockBoard = true;
+        disableAllCards(true); 
         
         // Show the cards for a quick preview before play
         document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
         
         setTimeout(() => {
             document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flip'));
-            disableAllCards(false); // Enable for play
-        }, 2000); // 2 second preview time
+            lockBoard = false;
+            disableAllCards(false); 
+        }, 2000); 
     });
 
     // Difficulty Change
