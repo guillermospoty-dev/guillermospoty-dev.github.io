@@ -143,22 +143,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- NO MATCH ---
+    // --- NO MATCH (FIXED) ---
     function unflipCards() {
-        lockBoard = true; 
+        lockBoard = true; // LOCK the board so user cannot click while cards flip back
         
         setTimeout(() => {
+            // 1. Remove the flip class to hide the cards
             firstCard.classList.remove('flip');
             secondCard.classList.remove('flip');
             
+            // 2. Reset turn state and unlock the board
             resetBoard();
-        }, 1000); 
+        }, 1000); // 1 second delay
     }
     
-    // --- RESET TURN STATE ---
+    // --- RESET TURN STATE (FIXED) ---
     function resetBoard() {
-        [hasFlippedCard] = [false];
-        [firstCard, secondCard] = [null, null];
+        // 1. Reset card variables
+        [hasFlippedCard, firstCard, secondCard] = [false, null, null];
+        
+        // 2. UNLOCK the board (MUST happen after the flip classes are removed in unflipCards)
         lockBoard = false;
     }
     
@@ -185,16 +189,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Start Game Button 
     startGameBtn.addEventListener('click', () => {
-        // Reset the game state immediately
         initializeGame(); 
         
         lockBoard = true;
         disableAllCards(true); 
 
-        // 1. Show all cards for 2 seconds
+        // Show all cards for 2 seconds
         document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
         
-        // 2. Hide them and enable play
+        // Hide them and enable play
         setTimeout(() => {
             document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flip'));
             lockBoard = false;
@@ -223,12 +226,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Difficulty Change
     difficultySelector.addEventListener('change', () => {
-        // Changing difficulty resets the game and shows the start button
         initializeGame();
         startGameBtn.style.display = 'inline-block';
         restartGameBtn.textContent = 'Reset Game';
-        
-        // Clear board and show prompt
         boardContainer.innerHTML = '<p class="text-center text-muted mt-5">Press \'Start Game\' to begin!</p>';
         boardContainer.style.display = 'block';
     });
