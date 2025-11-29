@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- MATCH CHECK LOGIC (Using data-value) ---
     function checkForMatch() {
-        // Now reliably comparing icon class strings
         const isMatch = firstCard.getAttribute('data-value') === secondCard.getAttribute('data-value');
         
         isMatch ? disableCards() : unflipCards();
@@ -186,13 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Start Game Button 
     startGameBtn.addEventListener('click', () => {
+        // Reset the game state immediately
         initializeGame(); 
         
         lockBoard = true;
         disableAllCards(true); 
 
+        // 1. Show all cards for 2 seconds
         document.querySelectorAll('.memory-card').forEach(card => card.classList.add('flip'));
         
+        // 2. Hide them and enable play
         setTimeout(() => {
             document.querySelectorAll('.memory-card').forEach(card => card.classList.remove('flip'));
             lockBoard = false;
@@ -221,9 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Difficulty Change
     difficultySelector.addEventListener('change', () => {
+        // Changing difficulty resets the game and shows the start button
         initializeGame();
         startGameBtn.style.display = 'inline-block';
         restartGameBtn.textContent = 'Reset Game';
+        
+        // Clear board and show prompt
         boardContainer.innerHTML = '<p class="text-center text-muted mt-5">Press \'Start Game\' to begin!</p>';
         boardContainer.style.display = 'block';
     });
