@@ -206,5 +206,117 @@
 /* Ensure rating labels are centered (from previous step) */
 .rating-label {
     text-align: center;
+}#memory-game .card-surface {
+    max-width: 900px; /* Limit the max width for better card alignment */
 }
+
+/* Flex container for the game board */
+#game-board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Space between cards */
+    padding: 20px;
+    background-color: #f5f5f5; /* Light background for the board */
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Card Styles */
+.memory-card {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    perspective: 1000px; /* For 3D flip effect */
+    transition: all 0.2s;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+@media (max-width: 576px) {
+    .memory-card {
+        width: 70px;
+        height: 70px;
+    }
+    #game-board {
+        gap: 5px;
+        padding: 10px;
+    }
+}
+
+.memory-card.easy-mode {
+    width: 120px;
+    height: 120px;
+}
+.memory-card.hard-mode {
+    width: 100px;
+    height: 100px;
+}
+
+/* Inner card content (front and back) */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+/* Apply the flip rotation */
+.memory-card.flip .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back of the face when flipped */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.card-back {
+    background: #0044cc; /* Back face color (Blue from btn-custom) */
+    color: white;
+    transform: rotateY(0deg);
+    border: 3px solid #003399;
+}
+
+.card-front {
+    background: #ffffff; /* Front face color (White) */
+    color: #333333;
+    transform: rotateY(180deg);
+    border: 3px solid #ddd;
+}
+
+/* Matched and Disabled State */
+.memory-card.match .card-front,
+.memory-card.match .card-back {
+    border-color: #008000; /* Green border for matched cards */
+}
+
+.memory-card.disabled {
+    pointer-events: none; /* Disable clicking while checking a match */
+}
+
+/* Icons/Images within the card */
+.card-front i {
+    font-size: 36px;
+}
+
+@media (max-width: 576px) {
+    .card-front i {
+        font-size: 24px;
+    }
+}
+
+
 
