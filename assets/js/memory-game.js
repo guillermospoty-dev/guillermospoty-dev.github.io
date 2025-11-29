@@ -9,19 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const winMessage = document.getElementById('win-message');
     const finalMovesSpan = document.getElementById('final-moves');
 
-    // --- GAME DATA (USING IMAGE PLACEHOLDERS) ---
-    // **IMPORTANT**: Replace these placeholders with your actual image filenames 
-    // located in the assets/img/ folder (e.g., 'my_hammer.png', 'my_wrench.jpg', etc.)
     const cardIcons = [
-        '10cora.jpg', // Placeholder 1
-        '10diam.jpg', // Placeholder 2
-        '10pica.jpg', // Placeholder 3
-        '10trebol.jpg', // Placeholder 4
-        'AScora.jpg', // Placeholder 5
-        'ASdiam.jpg', // Placeholder 6
-        'AStrebol.png', // Placeholder 7
-        'ASnaipes.jpg' // Placeholder 8
-    ];
+    'bi-hammer', 
+    'bi-wrench-adjustable', 
+    'bi-compass', 
+    'bi-rulers', 
+    'bi-gear', 
+    'bi-thermometer-half',
+    'bi-diagram-3',
+    'bi-lightning'
+];
     
     // --- GAME STATE VARIABLES ---
     let cards = [];
