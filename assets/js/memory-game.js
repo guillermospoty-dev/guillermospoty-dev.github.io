@@ -13,14 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // **IMPORTANT**: Replace these placeholders with your actual image filenames 
     // located in the assets/img/ folder (e.g., 'my_hammer.png', 'my_wrench.jpg', etc.)
     const cardIcons = [
-        'hammer.png', // Placeholder 1
-        'wrench.png', // Placeholder 2
-        'compass.png', // Placeholder 3
-        'rulers.png', // Placeholder 4
-        'gear.png', // Placeholder 5
-        'thermometer.png', // Placeholder 6
-        'diagram.png', // Placeholder 7
-        'lightning.png' // Placeholder 8
+        '10cora.jpg', // Placeholder 1
+        '10diam.jpg', // Placeholder 2
+        '10pica.jpg', // Placeholder 3
+        '10trebol.jpg', // Placeholder 4
+        'AScora.jpg', // Placeholder 5
+        'ASdiam.jpg', // Placeholder 6
+        'AStrebol.png', // Placeholder 7
+        'ASnaipes.jpg' // Placeholder 8
     ];
     
     // --- GAME STATE VARIABLES ---
