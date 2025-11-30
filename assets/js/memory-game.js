@@ -90,7 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cardElement.innerHTML = `
                 <div class="card-inner">
                     <div class="card-front card-face">${frontContent}</div>
-                    <div class="card-back card-face"></div>
+                    <div class="card-back card-face">
+                    <i class="bi bi-question-lg"></i>
+                    </div>
                 </div>
             `;
             boardContainer.appendChild(cardElement);
