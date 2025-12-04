@@ -94,7 +94,7 @@
   cursor: pointer;
 }
 
-
+/*contactform*/
 .rating-label {
     margin-top: 15px;
     margin-bottom: 5px;
@@ -162,7 +162,7 @@
   100% { opacity: 0; }
 }
 
-/* --- Styles for Real-Time Validation (Optional Task) --- */
+/* --- Styles for Real-Time Validation */
 
 /* Style for invalid fields (red border) */
 .form-control.is-invalid {
@@ -201,12 +201,12 @@
     cursor: not-allowed;
 }
 
-/* Ensure rating labels are centered (from previous step) */
+/* Ensure rating labels are centered  */
 .rating-label {
     text-align: center;
 }
 
-/* --- Memory Game Styles (Final Corrected Block) --- */
+/* --- Memory Game Styles  --- */
 
 #memory-game .card-surface {
     max-width: 900px;
