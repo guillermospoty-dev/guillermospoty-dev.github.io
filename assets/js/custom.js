@@ -59,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Validation Function (Omitted for brevity, but needed) ---
+    
     function validateField(input) {
-        // ... (validateField logic must be present here) ...
+        
         const fieldName = input.id;
         const value = input.value.trim();
         const rules = validationRules[fieldName];
